@@ -5,6 +5,7 @@
 
 @theme {
   --font-noto-sans: "Noto Sans", "sans-serif";
+  --font-old-standard-tt: "Old Standard TT", "serif";
 }
 
 @theme inline {
