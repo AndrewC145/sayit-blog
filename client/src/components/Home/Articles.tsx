@@ -10,10 +10,10 @@ type ArticleProps = {
 
 function Articles() {
   return (
-    <div className="bg-[rgb(40,40,40)]">
-      <div className="mx-auto w-[60%] pt-15 pb-12">
+    <div className="bg-[rgb(20,20,20)]">
+      <div className="mx-auto w-[60%] pt-15 pb-20">
         <nav className="flex items-center justify-between p-4">
-          <ul className="flex gap-8 text-lg text-gray-300">
+          <ul className="flex gap-8 text-lg text-gray-200">
             <Topic name="All" />
             <Topic name="Music" />
             <Topic name="Fashion" />
@@ -47,7 +47,7 @@ function ArticleCard({ title, image, topic, mins }: ArticleProps) {
         alt={title}
         className="size-full rounded-md object-cover"
       />
-      <CardTitle className="font-pt-serif text-md text-white sm:text-lg lg:text-2xl">
+      <CardTitle className="font-pt-serif text-md font-light text-white sm:text-lg lg:text-2xl">
         {title}
       </CardTitle>
       <CardFooter className="flex items-center gap-4 p-0">

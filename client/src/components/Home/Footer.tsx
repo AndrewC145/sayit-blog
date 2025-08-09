@@ -1,33 +1,59 @@
+import { Link } from "react-router";
+
 function Footer() {
+  const homeLinks = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+  ];
+
+  const articlesLinks = [
+    { name: "All", path: "/articles" },
+    { name: "Music", path: "/articles/music" },
+    { name: "Fashion", path: "/articles/fashion" },
+    { name: "Tech", path: "/articles/tech" },
+  ];
+
+  const adminLinks = [{ name: "Login", path: "/admin/login" }];
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div className="font-pt-serif bg-gray-950 p-16 text-gray-300">
+    <div className="font-pt-serif space-y-20 bg-gray-950 px-24 py-28 text-gray-300">
       <div>
-        <h2 className="mb-8 text-5xl">sayit</h2>
+        <h2 className="mb-2 text-6xl">sayit</h2>
+        <p>{currentYear} - AndrewC145</p>
       </div>
       <div className="flex items-center gap-12">
-        <div className="w-full space-y-4 self-start">
-          <h3 className="text-2xl">Pages</h3>
-          <ul className="inline-block list-none space-y-2">
-            <li>Home</li>
-            <li>About</li>
-          </ul>
-        </div>
-        <div className="w-full space-y-4 self-start">
-          <h3 className="text-2xl">Articles</h3>
-          <ul className="inline-block list-none space-y-2">
-            <ul>All</ul>
-            <li>Music</li>
-            <li>Fashion</li>
-            <li>Tech</li>
-          </ul>
-        </div>
-        <div className="w-full space-y-4 self-start">
-          <h3 className="text-2xl">Admin</h3>
-          <ul className="inline-block list-none space-y-2">
-            <li>Login</li>
-          </ul>
-        </div>
+        <FooterLinks title="Home" links={homeLinks} />
+        <FooterLinks title="Articles" links={articlesLinks} />
+        <FooterLinks title="Admin" links={adminLinks} />
       </div>
+    </div>
+  );
+}
+
+function FooterLinks({
+  title,
+  links,
+}: {
+  title: string;
+  links: { name: string; path: string }[];
+}) {
+  return (
+    <div className="w-full space-y-4 self-start">
+      <h3 className="text-2xl">{title}</h3>
+      <ul className="inline-flex list-none flex-col gap-3">
+        {links.map((link) => (
+          <Link
+            className="cursor-pointer text-gray-300 hover:underline"
+            to={link.path}
+            key={link.name}
+          >
+            <li key={link.name} className="list-none text-sm">
+              {link.name}
+            </li>
+          </Link>
+        ))}
+      </ul>
     </div>
   );
 }
