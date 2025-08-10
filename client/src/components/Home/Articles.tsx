@@ -1,5 +1,5 @@
 import { Card, CardTitle, CardFooter } from "../ui/card";
-import testImg from "../../images/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques,_Paris_août_2014_(2).jpg";
+import testImg from "../../assets/images/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques,_Paris_août_2014_(2).jpg";
 
 type ArticleProps = {
   title: string;
