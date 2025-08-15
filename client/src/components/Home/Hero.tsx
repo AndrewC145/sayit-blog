@@ -1,4 +1,5 @@
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 function Hero() {
   return (
@@ -7,12 +8,14 @@ function Hero() {
         <h1 className="font-pt-serif text-center text-6xl">
           Brand new, and exciting <br /> reads await you
         </h1>
-        <Button
-          variant="default"
-          className="text-md cursor-pointer bg-red-300 px-8 py-6 text-white hover:bg-red-400"
-        >
-          Sign up
-        </Button>
+        <Link to="/subscribe">
+          <Button
+            variant="default"
+            className="text-md cursor-pointer bg-red-300 px-8 py-6 text-white hover:bg-red-400"
+          >
+            Sign up
+          </Button>
+        </Link>
       </div>
     </div>
   );

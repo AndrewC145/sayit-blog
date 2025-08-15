@@ -1,4 +1,5 @@
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 function Header() {
   return (
@@ -14,7 +15,9 @@ function Header() {
           <li className="cursor-pointer">Tech</li>
         </ul>
         <div className="flex flex-1 justify-end space-x-3">
-          <Button className="cursor-pointer">Subscribe</Button>
+          <Link to="/subscribe">
+            <Button className="cursor-pointer">Subscribe</Button>
+          </Link>
         </div>
       </nav>
     </header>
