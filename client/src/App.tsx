@@ -9,7 +9,7 @@ function App() {
     <>
       <BrowserRouter>
         <Header />
-        <main className="flex min-h-screen flex-col items-center justify-center bg-gray-950">
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />

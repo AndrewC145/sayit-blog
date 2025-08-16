@@ -16,8 +16,16 @@ const userSchema = z.object({
 type User = z.infer<typeof userSchema>;
 
 function Subscribe() {
-  const { register, handleSubmit } = useForm<User>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<User>({
     resolver: zodResolver(userSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
   const onSubmit = (data: User) => {
@@ -25,51 +33,62 @@ function Subscribe() {
   };
 
   return (
-    <div className="flex items-center justify-center gap-4 text-white">
+    <div className="font-pt-serif flex h-screen items-center justify-center gap-4 bg-gray-950 p-24 text-white">
       <form
-        className="w-[50%] border-2 border-white p-12"
+        className="h-full w-[50%] border-2 border-white p-12"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div>
-          <h1>LOGIN</h1>
-          <p>Please enter your username and password to log in.</p>
+        <div className="space-y-4">
+          <h1 className="text-xl font-bold">LOGIN</h1>
+          <p className="mb-4">
+            Please enter your username and password to log in.
+          </p>
         </div>
-        <div>
+        <div className="mb-4 space-y-2">
           <Label>Username</Label>
           <Input
+            className="rounded-xs p-6"
             type="text"
             placeholder="Enter your username"
-            {...register("username")}
+            {...register("username", { required: true })}
           />
+          {errors.username && (
+            <p className="text-red-300">{errors.username.message}</p>
+          )}
         </div>
-        <div>
+        <div className="mb-4 space-y-2">
           <Label>Password</Label>
           <Input
+            className="rounded-xs p-6"
             type="password"
             placeholder="Enter your password"
-            {...register("password")}
+            {...register("password", { required: true })}
           />
         </div>
-        <Button
-          type="submit"
-          className="mt-4 w-full bg-red-300 hover:bg-red-400"
-        >
-          Log In
-        </Button>
+        <FormButton text="Login" />
       </form>
-      <form className="w-[50%] border-2 border-white p-12">
-        <div>
-          <h2>NEW USER</h2>
-          <h3>
+      <form className="h-full w-[50%] border-2 border-white p-12">
+        <div className="space-y-4">
+          <h2 className="text-xl font-bold">NEW USER</h2>
+          <h3 className="mb-8">
             Sign up for an account to stay up to date with the latest articles
-            and details from sayit
+            and details from sayit, but also to be able to comment on articles.
           </h3>
         </div>
-        <Button className="mt-4 w-full bg-red-300 hover:bg-red-400">
-          Sign Up
-        </Button>
+        <FormButton text="Sign Up" />
       </form>
     </div>
+  );
+}
+
+function FormButton({ text }: { text: string }) {
+  return (
+    <Button
+      type="submit"
+      className="text-md mt-4 w-full cursor-pointer bg-white p-6 text-black hover:bg-gray-200"
+    >
+      {text}
+    </Button>
   );
 }
 
