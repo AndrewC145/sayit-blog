@@ -5,34 +5,27 @@ import FormButton from "./FormButton";
 import SignUp from "./Signup";
 import InputForm from "./InputForm";
 
-const userSchema = z.object({
-  username: z
-    .string()
-    .nonempty("Username is required")
-    .min(3, "Username must be at least 3 characters long")
-    .max(20, "Username must be at most 20 characters long"),
-  password: z
-    .string()
-    .nonempty("Password is required")
-    .min(8, "Password must be at least 8 characters long"),
+const loginSchema = z.object({
+  username: z.string().nonempty("Username is required"),
+  password: z.string().nonempty("Password is required"),
 });
 
-type User = z.infer<typeof userSchema>;
+type Login = z.infer<typeof loginSchema>;
 
 function Subscribe() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<User>({
-    resolver: zodResolver(userSchema),
+  } = useForm<Login>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       username: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: User) => {
+  const onSubmit = (data: Login) => {
     console.log("Form submitted:", data);
   };
 
@@ -49,7 +42,6 @@ function Subscribe() {
           </p>
         </div>
         <InputForm
-          key={"login-username"}
           register={register}
           label="Username"
           type="text"
@@ -57,7 +49,6 @@ function Subscribe() {
           errors={errors?.username}
         />
         <InputForm
-          key={"login-password"}
           register={register}
           label="Password"
           type="password"
@@ -66,7 +57,7 @@ function Subscribe() {
         />
         <FormButton text="Login" />
       </form>
-      <SignUp register={register} errors={errors} />
+      <SignUp />
     </div>
   );
 }

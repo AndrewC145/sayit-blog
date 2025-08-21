@@ -1,17 +1,47 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as z from "zod";
 import FormButton from "./FormButton";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import InputForm from "./InputForm";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-function SignUp({ register, errors }: { register?: any; errors?: any }) {
+const userSchema = z.object({
+  username: z
+    .string()
+    .nonempty("Username is required")
+    .min(3, "Username must be at least 3 characters long")
+    .max(20, "Username must be at most 20 characters long"),
+  password: z
+    .string()
+    .nonempty("Password is required")
+    .min(8, "Password must be at least 8 characters long"),
+});
+
+type User = z.infer<typeof userSchema>;
+
+function SignUp() {
   const [open, setOpen] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<User>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
 
   const toggleForm = () => {
     setOpen(!open);
   };
 
   return (
-    <form className="h-full w-[50%] border-2 border-white p-12">
+    <form
+      className="h-full w-[50%] border-2 border-white p-12"
+      onSubmit={handleSubmit((data) => console.log("Form submitted:", data))}
+    >
       {!open ? (
         <div className="space-y-4">
           <h2 className="text-xl font-bold">NEW USER</h2>
@@ -28,20 +58,18 @@ function SignUp({ register, errors }: { register?: any; errors?: any }) {
             Please enter your username and password to create an account.
           </p>
           <InputForm
-            key={"signup-username"}
             register={register}
             type="text"
             placeholder="Enter your username"
             label="Username"
-            errors={errors?.newUsername}
+            errors={errors.username}
           />
           <InputForm
-            key={"signup-password"}
             register={register}
             type="password"
             placeholder="Enter your password"
             label="Password"
-            errors={errors?.newPassword}
+            errors={errors.password}
           />
           <FormButton text="Create Account" />
         </div>
