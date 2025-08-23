@@ -4,6 +4,7 @@ import { Input } from "./ui/input";
 
 type InputFormProps = {
   register: any;
+  className?: string;
   label: string;
   placeholder: string;
   type?: string;
@@ -12,6 +13,7 @@ type InputFormProps = {
 
 function InputForm({
   register,
+  className = "rounded-xs p-6",
   label,
   placeholder,
   type,
@@ -21,7 +23,7 @@ function InputForm({
     <div className="mb-4 space-y-2">
       <Label>{label}</Label>
       <Input
-        className="rounded-xs p-6"
+        className={className}
         type={type || "text"}
         placeholder={placeholder}
         {...register(label.toLowerCase(), { required: true })}

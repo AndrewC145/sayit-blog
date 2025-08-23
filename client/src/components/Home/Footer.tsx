@@ -13,7 +13,7 @@ function Footer() {
     { name: "Tech", path: "/articles/tech" },
   ];
 
-  const adminLinks = [{ name: "Login", path: "/admin/login" }];
+  const adminLinks = [{ name: "Create Post", path: "/admin/create" }];
   const currentYear = new Date().getFullYear();
 
   return (

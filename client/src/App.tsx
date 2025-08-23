@@ -3,6 +3,7 @@ import Header from "./components/Home/Header";
 import Footer from "./components/Home/Footer";
 import About from "./components/About";
 import Subscribe from "./components/Subscribe";
+import CreatePost from "./components/CreatePost";
 import { BrowserRouter, Routes, Route } from "react-router";
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/subscribe" element={<Subscribe />} />
+            <Route path="/admin/create" element={<CreatePost />} />
           </Routes>
         </main>
         <Footer />
