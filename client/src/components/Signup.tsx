@@ -14,7 +14,8 @@ const userSchema = z.object({
   password: z
     .string()
     .nonempty("Password is required")
-    .min(8, "Password must be at least 8 characters long"),
+    .min(8, "Password must be at least 8 characters long")
+    .max(25, "Password must be at most 25 characters long"),
 });
 
 type User = z.infer<typeof userSchema>;
