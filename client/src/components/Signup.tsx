@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as z from "zod";
 import FormButton from "./FormButton";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import InputForm from "./InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const userSchema = z.object({
   username: z
@@ -22,6 +24,7 @@ type User = z.infer<typeof userSchema>;
 
 function SignUp() {
   const [open, setOpen] = useState(false);
+  const PORT = import.meta.env.VITE_PORT as string;
   const {
     register,
     handleSubmit,
@@ -38,10 +41,25 @@ function SignUp() {
     setOpen(!open);
   };
 
+  const registerUser: SubmitHandler<User> = async (data) => {
+    try {
+      const response = await axios.post(`${PORT}/users/signup`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      console.log("User registered successfully:", response);
+    } catch (error: any) {
+      console.error("Error registering user:", error.message);
+    }
+  };
+
   return (
     <form
       className="h-full w-[50%] border-2 border-white p-12"
-      onSubmit={handleSubmit((data) => console.log("Form submitted:", data))}
+      onSubmit={handleSubmit(registerUser)}
     >
       {!open ? (
         <div className="space-y-4">
