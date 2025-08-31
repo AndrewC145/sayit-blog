@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import passport from 'passport';
 import cors from 'cors';
 import signUpRoute from './routes/signupRoute';
+import loginRoute from './routes/loginRoute'
 
 const app = express();
 const PORT: string | undefined = process.env.PORT;
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 app.use('/users', signUpRoute);
+app.use('/users', loginRoute)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

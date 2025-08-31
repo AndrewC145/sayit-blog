@@ -43,12 +43,16 @@ function SignUp() {
 
   const registerUser: SubmitHandler<User> = async (data) => {
     try {
-      const response = await axios.post(`${PORT}/users/signup`, data, {
-        headers: {
-          "Content-Type": "application/json",
+      const response: Response = await axios.post(
+        `${PORT}/users/signup`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      });
+      );
 
       console.log("User registered successfully:", response);
     } catch (error: any) {

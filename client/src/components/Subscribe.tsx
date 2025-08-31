@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormButton from "./FormButton";
 import SignUp from "./Signup";
 import InputForm from "./InputForm";
+import axios from "axios";
 
 const loginSchema = z.object({
   username: z.string().nonempty("Username is required"),
@@ -25,15 +27,28 @@ function Subscribe() {
     },
   });
 
-  const onSubmit = (data: Login) => {
-    console.log("Form submitted:", data);
+  const PORT = import.meta.env.VITE_PORT as string;
+
+  const login: SubmitHandler<Login> = async (data) => {
+    try {
+      const response: Response = await axios.post(`${PORT}/users/login`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      console.log("Login successful:", response);
+    } catch (error: any) {
+      console.error("Error logging in:", error.message);
+    }
   };
 
   return (
     <div className="font-pt-serif flex h-screen items-center justify-center gap-4 bg-gray-950 p-24 text-white">
       <form
         className="h-full w-[50%] border-2 border-white p-12"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(login)}
       >
         <div className="space-y-4">
           <h1 className="text-xl font-bold">LOGIN</h1>

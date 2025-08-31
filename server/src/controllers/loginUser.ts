@@ -5,6 +5,13 @@ import jwt from 'jsonwebtoken';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import { findUserByUsername } from '../db/loginQueries';
+import { body, validationResult } from 'express-validator';
+
+const loginValidation = [
+  body('username').isString().notEmpty().withMessage('Username is required'),
+
+  body('password').isString().notEmpty().withMessage('Password is required'),
+];
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -13,24 +20,30 @@ const jwtOptions = {
   audience: process.env.JWT_AUDIENCE as string,
 };
 
-async function generateToken(user: any): Promise<any> {
+function generateToken(user: any): Promise<any> {
+  const userObj: Object = { id: user.id, username: user.username };
   const payload: Object = {
-    sub: { id: user.id, username: user.username },
+    sub: userObj,
     iat: Date.now(),
   };
 
-  jwt.sign(
-    payload,
-    jwtOptions.secretOrKey,
-    { expiresIn: '1d', algorithm: 'HS256' },
-    (err, token) => {
-      if (err) {
-        throw new Error('Error generating token');
+  return new Promise((resolve, reject) => {
+    jwt.sign(
+      payload,
+      jwtOptions.secretOrKey,
+      {
+        expiresIn: '1d',
+        algorithm: 'HS256',
+      },
+      function (err, token) {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve(token);
       }
-      console.log('Generated Token:', token);
-      return token;
-    }
-  );
+    );
+  });
 }
 
 /*
@@ -61,6 +74,7 @@ passport.use(
         if (err) return done(err);
 
         if (isMatch) {
+          console.log('User logged in successfully');
           return done(null, user);
         } else {
           return done(null, false, { message: 'Incorrect password.' });
@@ -73,6 +87,10 @@ passport.use(
 );
 
 async function loginUser(req: Request, res: Response, next: NextFunction) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   passport.authenticate(
     'local',
     { session: false },
@@ -86,10 +104,9 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
       }
 
       const token = await generateToken(user);
-
       return res.status(200).json({ user, token });
     }
   )(req, res, next);
 }
 
-export { loginUser };
+export { loginUser, loginValidation };
