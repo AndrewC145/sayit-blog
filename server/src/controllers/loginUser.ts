@@ -74,7 +74,6 @@ passport.use(
         if (err) return done(err);
 
         if (isMatch) {
-          console.log('User logged in successfully');
           return done(null, user);
         } else {
           return done(null, false, { message: 'Incorrect password.' });

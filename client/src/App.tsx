@@ -5,20 +5,23 @@ import About from "./components/About";
 import Subscribe from "./components/Subscribe";
 import CreatePost from "./components/CreatePost";
 import { BrowserRouter, Routes, Route } from "react-router";
+import AuthProvider from "./context/AuthProvider";
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/subscribe" element={<Subscribe />} />
-            <Route path="/admin/create" element={<CreatePost />} />
-          </Routes>
-        </main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/subscribe" element={<Subscribe />} />
+              <Route path="/admin/create" element={<CreatePost />} />
+            </Routes>
+          </main>
+          <Footer />
+        </AuthProvider>
       </BrowserRouter>
     </>
   );
