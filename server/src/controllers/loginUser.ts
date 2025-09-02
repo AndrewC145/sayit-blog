@@ -32,8 +32,8 @@ function generateToken(user: any): Promise<any> {
       payload,
       jwtOptions.secretOrKey,
       {
-        expiresIn: '1d',
         algorithm: 'HS256',
+        expiresIn: '30m',
       },
       function (err, token) {
         if (err) {
@@ -103,9 +103,9 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
       }
 
       const token = await generateToken(user);
-      return res.status(200).json({ user, token });
+      return res.status(200).json({ user, accessToken: token });
     }
   )(req, res, next);
 }
 
-export { loginUser, loginValidation };
+export { loginUser, loginValidation, jwtOptions };
