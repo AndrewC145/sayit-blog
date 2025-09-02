@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import jwt from 'jsonwebtoken';
 import { ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import { findUserByUsername } from '../db/loginQueries';
 import { body, validationResult } from 'express-validator';
+import { sendTokens } from './refresh';
 
 const loginValidation = [
   body('username').isString().notEmpty().withMessage('Username is required'),
@@ -19,32 +19,6 @@ const jwtOptions = {
   issuer: process.env.JWT_ISSUER as string,
   audience: process.env.JWT_AUDIENCE as string,
 };
-
-function generateToken(user: any): Promise<any> {
-  const userObj: object = { id: user.id, username: user.username };
-  const payload: object = {
-    sub: userObj,
-    iat: Date.now(),
-  };
-
-  return new Promise((resolve, reject) => {
-    jwt.sign(
-      payload,
-      jwtOptions.secretOrKey,
-      {
-        algorithm: 'HS256',
-        expiresIn: '30m',
-      },
-      function (err: Error | null, token: string | undefined) {
-        if (err) {
-          return reject(err);
-        }
-
-        resolve(token);
-      }
-    );
-  });
-}
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -86,8 +60,7 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
           .status(401)
           .json({ message: info?.message || 'Login failed' });
       }
-
-      const token = await generateToken(user);
+      const token = await sendTokens(user, res);
       return res.status(200).json({ user, accessToken: token });
     }
   )(req, res, next);

@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import signUpRoute from './routes/signupRoute';
-import loginRoute from './routes/loginRoute'
+import loginRoute from './routes/loginRoute';
 
 const app = express();
 const PORT: string | undefined = process.env.PORT;
@@ -24,10 +25,11 @@ const corsOptions: CorsTypes = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(passport.initialize());
 
 app.use('/users', signUpRoute);
-app.use('/users', loginRoute)
+app.use('/users', loginRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
