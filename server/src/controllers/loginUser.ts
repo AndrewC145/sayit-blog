@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import jwt from 'jsonwebtoken';
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import { findUserByUsername } from '../db/loginQueries';
 import { body, validationResult } from 'express-validator';
@@ -21,8 +21,8 @@ const jwtOptions = {
 };
 
 function generateToken(user: any): Promise<any> {
-  const userObj: Object = { id: user.id, username: user.username };
-  const payload: Object = {
+  const userObj: object = { id: user.id, username: user.username };
+  const payload: object = {
     sub: userObj,
     iat: Date.now(),
   };
@@ -35,7 +35,7 @@ function generateToken(user: any): Promise<any> {
         algorithm: 'HS256',
         expiresIn: '30m',
       },
-      function (err, token) {
+      function (err: Error | null, token: string | undefined) {
         if (err) {
           return reject(err);
         }
@@ -46,21 +46,6 @@ function generateToken(user: any): Promise<any> {
   });
 }
 
-/*
-function readToken(passport: any) {
-  passport.use(
-    new JwtStrategy(jwtOptions, (jwt_payload: any, done: Function) => {
-      const user = findUserById(jwt_payload.sub);
-
-      if (user) {
-        return done(null, user);
-      } else {
-        return done(null, false);
-      }
-    })
-  );
-}
-*/
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {

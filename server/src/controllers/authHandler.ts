@@ -1,21 +1,38 @@
-import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { jwtOptions } from './loginUser';
+import passport from 'passport';
+import { Strategy as JwtStrategy } from 'passport-jwt';
+import { findUserById } from '../db/registerQueries';
 
-export async function authVerify(req: Request, res: Response) {
-  const token: string | undefined = req.headers.authorization?.split(' ')[1];
+passport.use(
+  new JwtStrategy(jwtOptions, (jwt_payload: any, done: Function) => {
+    try {
+      const userId = jwt_payload.sub;
+      const user = findUserById(userId);
 
-  const verified = token ? await verifyToken(token, jwtOptions) : null;
+      if (user) return done(null, user);
 
-  if (!verified) return res.status(403).json({ message: 'Unauthrozied' });
+      return done(null, false);
+    } catch (error: any) {
+      return done(error, false);
+    }
+  })
+);
 
-  return res.status(200).json({ message: 'Authorized', verified });
+async function authenticateToken(req: Request, res: Response, next: Function) {
+  passport.authenticate(
+    'jwt',
+    { session: false },
+    async (err: any, user: any, info: any) => {
+      if (err) return next(err);
+
+      if (!user) {
+        return res.redirect('/login');
+      }
+
+      return res.status(200).json({ user });
+    }
+  )(req, res, next);
 }
 
-export async function verifyToken(token: string, options: typeof jwtOptions) {
-  try {
-    const verification = jwt.verify(token, options.secretOrKey);
-  } catch (error: any) {
-    throw new Error('Token verification failed');
-  }
-}
+export { authenticateToken };
