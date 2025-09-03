@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useContext } from "react";
 import * as z from "zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormButton from "./FormButton";
 import SignUp from "./Signup";
 import InputForm from "./InputForm";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
+import { AuthContext } from "@/context/AuthContext";
 
 const loginSchema = z.object({
   username: z.string().nonempty("Username is required"),
@@ -15,6 +17,8 @@ const loginSchema = z.object({
 type Login = z.infer<typeof loginSchema>;
 
 function Subscribe() {
+  const { setToken } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
@@ -31,14 +35,19 @@ function Subscribe() {
 
   const login: SubmitHandler<Login> = async (data) => {
     try {
-      const response: Response = await axios.post(`${PORT}/users/login`, data, {
-        headers: {
-          "Content-Type": "application/json",
+      const response: AxiosResponse = await axios.post(
+        `${PORT}/users/login`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      });
+      );
 
       console.log("Login successful:", response);
+      setToken(response.data.accessToken);
     } catch (error: any) {
       console.error("Error logging in:", error.message);
     }

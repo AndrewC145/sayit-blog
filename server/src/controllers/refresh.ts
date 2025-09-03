@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { jwtOptions } from './loginUser';
 
 function generateAccessToken(user: any): Promise<any> {
@@ -26,6 +26,30 @@ function generateAccessToken(user: any): Promise<any> {
       }
     );
   });
+}
+
+function checkTokenMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Response<any> | void {
+  const header = req.headers.authorization;
+  const token = header && header.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  try {
+    jwt.verify(token, jwtOptions.secretOrKey);
+    next();
+  } catch (err: any) {
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Token expired' });
+    }
+
+    return res.status(403).json({ message: 'Invalid token' });
+  }
 }
 
 function generateRefreshToken(user: any): Promise<any> {
@@ -68,7 +92,10 @@ async function sendTokens(user: any, res: Response) {
   }
 }
 
-async function refreshToken(req: Request, res: Response) {
+async function refreshToken(
+  req: Request,
+  res: Response
+): Promise<Response<any> | void> {
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
@@ -92,4 +119,4 @@ async function refreshToken(req: Request, res: Response) {
   );
 }
 
-export { sendTokens, generateAccessToken, refreshToken };
+export { sendTokens, generateAccessToken, refreshToken, checkTokenMiddleware };
