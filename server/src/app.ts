@@ -4,6 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import signUpRoute from './routes/signupRoute';
 import loginRoute from './routes/loginRoute';
+import refreshRoute from './routes/refreshRoute';
 
 const app = express();
 const PORT: string | undefined = process.env.PORT;
@@ -30,6 +31,7 @@ app.use(passport.initialize());
 
 app.use('/users', signUpRoute);
 app.use('/users', loginRoute);
+app.use('/api/refresh', refreshRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

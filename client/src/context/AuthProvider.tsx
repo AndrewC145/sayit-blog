@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { AuthContext, type AuthContextType } from "./AuthContext";
 import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
@@ -12,24 +12,6 @@ interface InternalAxiosRequestConfigWithRetry
 const PORT = import.meta.env.VITE_PORT as string;
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthContextType["token"]>(undefined);
-
-  // Fetch token from backend if it exists
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const response = await axios.get(`${PORT}/users`, {
-          withCredentials: true,
-        });
-
-        setToken(response.data.token);
-      } catch (error: any) {
-        console.error("Token not found:", error);
-        setToken(null);
-      }
-    };
-
-    fetchToken();
-  }, []);
 
   // Gurantees that the token is set before any request is made
   useLayoutEffect(() => {
