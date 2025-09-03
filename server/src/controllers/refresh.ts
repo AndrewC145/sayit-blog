@@ -94,7 +94,8 @@ async function sendTokens(user: any, res: Response) {
 
 async function refreshToken(
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<Response<any> | void> {
   const refreshToken = req.cookies.refreshToken;
 
@@ -113,8 +114,8 @@ async function refreshToken(
       }
 
       const accessToken = await generateAccessToken(decoded.sub);
-
-      return res.status(200).json({ accessToken });
+      res.json({ accessToken });
+      next();
     }
   );
 }
