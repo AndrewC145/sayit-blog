@@ -46,8 +46,9 @@ function Subscribe() {
         },
       );
 
-      console.log("Login successful:", response);
-      setToken(response.data.accessToken);
+      if (response.status === 200) {
+        setToken(response.data.accessToken);
+      }
     } catch (error: any) {
       console.error("Error logging in:", error.message);
     }

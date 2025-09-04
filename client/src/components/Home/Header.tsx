@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext, type AuthContextType } from "@/context/AuthContext";
 import { Button } from "../ui/button";
-import { Link } from "react-router";
+import { Link, useNavigate, type NavigateFunction } from "react-router";
 import axios from "axios";
 
 const PORT = import.meta.env.VITE_PORT;
 
 function Header() {
   const { token, setToken } = useContext<AuthContextType>(AuthContext);
-  useEffect(() => {
-    console.log("Token in Header:", token);
-  }, [token]);
+  const navigate: NavigateFunction = useNavigate();
   return (
     <header className="bg-[#242424] text-white">
       <nav className="font-noto-sans flex items-center justify-between px-4 py-4 sm:px-6 md:px-8 lg:px-10">
@@ -26,7 +24,7 @@ function Header() {
         </ul>
         <div className="flex flex-1 justify-end space-x-3">
           {token ? (
-            LogoutButton({ setToken })
+            LogoutButton({ setToken, navigate })
           ) : (
             <Link to="/subscribe">
               <Button className="cursor-pointer">Subscribe</Button>
@@ -38,7 +36,13 @@ function Header() {
   );
 }
 
-function LogoutButton({ setToken }: { setToken: AuthContextType["setToken"] }) {
+function LogoutButton({
+  setToken,
+  navigate,
+}: {
+  setToken: AuthContextType["setToken"];
+  navigate: NavigateFunction;
+}) {
   const logoutUser = async () => {
     try {
       const response = await axios.post(
@@ -48,8 +52,8 @@ function LogoutButton({ setToken }: { setToken: AuthContextType["setToken"] }) {
       );
 
       if (response.status === 200) {
-        console.log("Logout successful");
         setToken(null);
+        navigate("/subscribe");
       }
     } catch (error: any) {
       console.error("Logout failed:", error);

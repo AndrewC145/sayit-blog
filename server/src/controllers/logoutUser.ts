@@ -6,7 +6,7 @@ async function logoutUser(req: Request, res: Response) {
     path: '/',
   });
 
-  return res.status(200).end().redirect('/subscribe');
+  return res.status(200).end();
 }
 
 export default logoutUser;
