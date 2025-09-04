@@ -94,8 +94,7 @@ async function sendTokens(user: any, res: Response) {
 
 async function refreshToken(
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Promise<Response<any> | void> {
   const refreshToken = req.cookies.refreshToken;
 
@@ -110,12 +109,11 @@ async function refreshToken(
     refreshSecret,
     async (err: any, decoded: any) => {
       if (err) {
-        return res.status(403).json({ message: 'Invalid refresh token' });
+        return res.status(403).json({ message: 'Unauthorized' });
       }
 
       const accessToken = await generateAccessToken(decoded.sub);
-      res.json({ accessToken });
-      next();
+      return res.status(200).json({ accessToken });
     }
   );
 }

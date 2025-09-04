@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import signUpRoute from './routes/signupRoute';
 import loginRoute from './routes/loginRoute';
 import refreshRoute from './routes/refreshRoute';
+import logoutRoute from './routes/logoutRoute';
 
 const app = express();
 const PORT: string | undefined = process.env.PORT;
@@ -23,14 +24,15 @@ const corsOptions: CorsTypes = {
   methods: ['GET', 'POST', 'DELETE'],
 };
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(passport.initialize());
 
 app.use('/users', signUpRoute);
 app.use('/users', loginRoute);
+app.use('/users', logoutRoute);
 app.use('/api/refresh', refreshRoute);
 
 app.listen(PORT, () => {
