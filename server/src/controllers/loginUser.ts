@@ -60,8 +60,15 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
           .status(401)
           .json({ message: info?.message || 'Login failed' });
       }
-      const token = await sendTokens(user, res);
-      return res.status(200).json({ user, accessToken: token });
+
+      const token: any = req.headers.authorization?.split(' ')[1];
+      if (token) {
+        return res.status(400).json({ message: 'Already logged in ' });
+      }
+
+      const newToken: any = await sendTokens(user, res);
+
+      return res.status(200).json({ user, accessToken: newToken });
     }
   )(req, res, next);
 }

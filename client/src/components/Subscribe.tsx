@@ -50,7 +50,7 @@ function Subscribe() {
         setToken(response.data.accessToken);
       }
     } catch (error: any) {
-      console.error("Error logging in:", error.message);
+      console.error("Error logging in:", error.response?.data.message);
     }
   };
 
