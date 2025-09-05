@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useLayoutEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { AuthContext, type AuthContextType } from "./AuthContext";
 import axios from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
@@ -12,6 +12,27 @@ interface InternalAxiosRequestConfigWithRetry
 const PORT = import.meta.env.VITE_PORT as string;
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthContextType["token"]>(undefined);
+
+  useEffect(() => {
+    const refreshToken = async () => {
+      try {
+        const response = await axios.get(`${PORT}/api/refresh`, {
+          withCredentials: true,
+        });
+
+        if (response.status === 200) {
+          setToken(response.data.accessToken);
+        } else {
+          setToken(null);
+        }
+      } catch (error: any) {
+        console.error("Initial token refresh failed:", error);
+        setToken(null);
+      }
+    };
+
+    refreshToken();
+  }, []);
 
   // Gurantees that the token is set before any request is made
   useLayoutEffect(() => {

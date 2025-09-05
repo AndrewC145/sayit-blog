@@ -3,7 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 import { jwtOptions } from './loginUser';
 
 function generateAccessToken(user: any): Promise<any> {
-  const userObj: object = { id: user.id, username: user.username };
+  const userObj: object = {
+    id: user.id,
+    username: user.username,
+    admin: user.admin,
+  };
   const payload: object = {
     sub: userObj,
     iat: Date.now(),
@@ -76,8 +80,8 @@ function generateRefreshToken(user: any): Promise<any> {
 
 async function sendTokens(user: any, res: Response) {
   try {
-    const accessToken = await generateAccessToken(user);
-    const refreshToken = await generateRefreshToken(user);
+    const accessToken: Function = await generateAccessToken(user);
+    const refreshToken: Function = await generateRefreshToken(user);
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
