@@ -6,7 +6,7 @@ function generateAccessToken(user: any): Promise<any> {
   const userObj: object = {
     id: user.id,
     username: user.username,
-    admin: user.admin,
+    role: user.role,
   };
   const payload: object = {
     sub: userObj,
