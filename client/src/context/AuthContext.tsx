@@ -12,7 +12,7 @@ export type AuthContextType = {
   setToken: React.Dispatch<React.SetStateAction<string | null | undefined>>;
   user?: UserAuthProps;
   setUser?: React.Dispatch<React.SetStateAction<UserAuthProps>>;
-  handleLogin?: SubmitHandler<Login>;
+  handleLogin: SubmitHandler<Login>;
   handleLogout: (navigate: NavigateFunction) => Promise<void>;
 };
 

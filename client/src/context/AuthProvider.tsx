@@ -4,6 +4,7 @@ import { AuthContext, type AuthContextType } from "./AuthContext";
 import axios, { type AxiosResponse } from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
 import { type NavigateFunction } from "react-router";
+
 interface InternalAxiosRequestConfigWithRetry
   extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -14,7 +15,10 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthContextType["token"]>(undefined);
   const [user, setUser] = useState<AuthContextType["user"]>(null);
 
-  async function handleLogin(data: { username: string; password: string }) {
+  async function handleLogin(data: {
+    username: string;
+    password: string;
+  }): Promise<void> {
     try {
       const response: AxiosResponse = await axios.post(
         `${PORT}/users/login`,
