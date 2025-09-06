@@ -69,12 +69,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (response.status === 200) {
           setToken(response.data.accessToken);
+          setUser(response.data.user);
         } else {
           setToken(null);
+          setUser(null);
         }
       } catch (error: any) {
         console.error("Initial token refresh failed:", error);
         setToken(null);
+        setUser(null);
       }
     };
 

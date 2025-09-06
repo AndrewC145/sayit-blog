@@ -6,6 +6,9 @@ import Subscribe from "./components/Subscribe";
 import CreatePost from "./components/CreatePost";
 import { BrowserRouter, Routes, Route } from "react-router";
 import AuthProvider from "./context/AuthProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ErrorPage from "./components/ErrorPage";
+
 function App() {
   return (
     <>
@@ -17,7 +20,15 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/subscribe" element={<Subscribe />} />
-              <Route path="/admin/create" element={<CreatePost />} />
+              <Route
+                path="/admin/create"
+                element={
+                  <ProtectedRoute allowedRoles={["ADMIN"]}>
+                    <CreatePost />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           </main>
           <Footer />

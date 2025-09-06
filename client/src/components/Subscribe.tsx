@@ -36,7 +36,7 @@ function Subscribe() {
 
   return (
     <>
-      <div className="fixed top-25 left-1/2 z-50 flex -translate-x-1/2 justify-center">
+      <div className="absolute top-25 left-1/2 z-50 flex -translate-x-1/2 justify-center">
         <AlertMsg message={message} setMessage={setMessage} />
       </div>
       <div className="font-pt-serif flex h-screen items-center justify-center gap-4 bg-gray-950 p-24 text-white">

@@ -58,7 +58,7 @@ function checkTokenMiddleware(
 
 function generateRefreshToken(user: any): Promise<any> {
   const payload: object = {
-    sub: { id: user.id },
+    sub: { id: user.id, role: user.role },
     iat: Date.now(),
   };
 
@@ -117,7 +117,7 @@ async function refreshToken(
       }
 
       const accessToken = await generateAccessToken(decoded.sub);
-      return res.status(200).json({ accessToken });
+      return res.status(200).json({ accessToken, user: decoded.sub });
     }
   );
 }

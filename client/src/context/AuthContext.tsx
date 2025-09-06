@@ -2,7 +2,8 @@ import { createContext, useContext } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { type Login } from "@/components/Subscribe";
 import { type NavigateFunction } from "react-router";
-type UserAuthProps =
+
+export type UserAuthProps =
   | { id: string; name: string; role: string }
   | null
   | undefined;
