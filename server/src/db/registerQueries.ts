@@ -17,7 +17,6 @@ async function storeUser(
     },
   });
 
-  console.log('Created user:', user);
   return user;
 }
 
