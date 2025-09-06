@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -6,9 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormButton from "./FormButton";
 import SignUp from "./Signup";
 import InputForm from "./InputForm";
-import { Alert, AlertTitle } from "./ui/alert";
-import { type AuthContextType } from "@/context/AuthContext";
-import { MessageSquare } from "lucide-react";
+import AlertMsg from "./AlertMsg";
 
 const loginSchema = z.object({
   username: z.string().nonempty("Username is required"),
@@ -16,8 +13,6 @@ const loginSchema = z.object({
 });
 
 export type Login = z.infer<typeof loginSchema>;
-
-type AlertProps = Pick<AuthContextType, "message" | "setMessage">;
 
 function Subscribe() {
   const { handleLogin, message, setMessage } = useAuth();
@@ -69,34 +64,6 @@ function Subscribe() {
         <SignUp />
       </div>
     </>
-  );
-}
-
-function AlertMsg({ message, setMessage }: AlertProps) {
-  const [shown, setShown] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (message) {
-      setShown(true);
-      const timer = setTimeout(() => {
-        setShown(false);
-        setMessage(undefined);
-      }, 2500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message, setMessage]);
-
-  if (!shown || !message) return null;
-
-  return (
-    <Alert
-      className="w-[30vw] rounded-md border-1 border-gray-500 bg-[#242424] text-white"
-      variant="default"
-    >
-      <MessageSquare />
-      <AlertTitle>{message}</AlertTitle>
-    </Alert>
   );
 }
 

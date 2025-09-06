@@ -39,7 +39,9 @@ async function signUp(req: Request, res: Response) {
     const hashedPassword: string = await hashPassword(password);
     let user: object = await storeUser(username, hashedPassword);
 
-    return res.status(201).json({ user });
+    return res
+      .status(201)
+      .json({ user, message: 'Account created successfully' });
   } catch (error: any) {
     return res.status(400).json({ error });
   }

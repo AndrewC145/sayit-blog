@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import InputForm from "./InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
+import { useAuth } from "@/context/AuthContext";
 
 const userSchema = z.object({
   username: z
@@ -23,6 +24,7 @@ const userSchema = z.object({
 type User = z.infer<typeof userSchema>;
 
 function SignUp() {
+  const { setMessage } = useAuth();
   const [open, setOpen] = useState(false);
   const PORT = import.meta.env.VITE_PORT as string;
   const {
@@ -43,7 +45,7 @@ function SignUp() {
 
   const registerUser: SubmitHandler<User> = async (data) => {
     try {
-      const response: Response = await axios.post(
+      const response: AxiosResponse = await axios.post(
         `${PORT}/users/signup`,
         data,
         {
@@ -54,7 +56,10 @@ function SignUp() {
         },
       );
 
-      console.log("User registered successfully:", response);
+      if (response.status === 201) {
+        setMessage(response.data.message);
+        setOpen(false);
+      }
     } catch (error: any) {
       console.error("Error registering user:", error.message);
     }
