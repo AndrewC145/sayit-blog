@@ -68,6 +68,7 @@ function SignUp() {
   return (
     <form
       className="h-full w-[50%] border-2 border-white p-12"
+      method="POST"
       onSubmit={handleSubmit(registerUser)}
     >
       {!open ? (

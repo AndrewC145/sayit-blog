@@ -53,6 +53,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.status === 200) {
         setToken(null);
+        setUser(null);
         navigate("/subscribe");
       }
     } catch (error: any) {

@@ -50,6 +50,8 @@ function CreatePost() {
     <div className="font-pt-serif flex h-screen items-center justify-center bg-gray-950 text-white">
       <form
         className="flex w-[50%] flex-col rounded-md border-2 border-white p-12"
+        encType="multipart/form-data"
+        method="POST"
         onSubmit={handleSubmit((data) => console.log(data))}
       >
         <h1 className="mb-8 text-3xl">Create Post</h1>

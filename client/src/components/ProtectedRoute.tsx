@@ -8,7 +8,6 @@ type ProtectedRouteProps = {
 
 function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
   const { user } = useAuth();
-  console.log("User in ProtectedRoute:", user);
 
   if (
     user === null ||

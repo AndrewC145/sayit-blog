@@ -37,6 +37,7 @@ function Subscribe() {
       <div className="font-pt-serif flex h-screen items-center justify-center gap-4 bg-gray-950 p-24 text-white">
         <form
           className="h-full w-[50%] border-2 border-white p-12"
+          method="POST"
           onSubmit={handleSubmit(handleLogin)}
         >
           <div className="space-y-4">
