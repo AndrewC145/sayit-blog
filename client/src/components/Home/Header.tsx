@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useContext } from "react";
-import { AuthContext, type AuthContextType } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "../ui/button";
 import { Link, useNavigate, type NavigateFunction } from "react-router";
-import axios from "axios";
-
-const PORT = import.meta.env.VITE_PORT;
 
 function Header() {
-  const { token, setToken } = useContext<AuthContextType>(AuthContext);
-  const navigate: NavigateFunction = useNavigate();
+  const { token, handleLogout } = useAuth();
 
   const headerLinks: object[] = [
     {
@@ -44,7 +39,7 @@ function Header() {
         </ul>
         <div className="flex flex-1 justify-end space-x-3">
           {token ? (
-            LogoutButton({ setToken, navigate })
+            <LogoutButton handleLogout={handleLogout} />
           ) : (
             <Link to="/subscribe">
               <Button className="cursor-pointer">Subscribe</Button>
@@ -57,30 +52,13 @@ function Header() {
 }
 
 function LogoutButton({
-  setToken,
-  navigate,
+  handleLogout,
 }: {
-  setToken: AuthContextType["setToken"];
-  navigate: NavigateFunction;
+  handleLogout: (navigate: NavigateFunction) => void;
 }) {
-  const logoutUser = async () => {
-    try {
-      const response = await axios.post(
-        `${PORT}/users/logout`,
-        {},
-        { withCredentials: true },
-      );
-
-      if (response.status === 200) {
-        setToken(null);
-        navigate("/subscribe");
-      }
-    } catch (error: any) {
-      console.error("Logout failed:", error);
-    }
-  };
+  const navigate: NavigateFunction = useNavigate();
   return (
-    <Button onClick={logoutUser} className="cursor-pointer">
+    <Button onClick={() => handleLogout(navigate)} className="cursor-pointer">
       Logout
     </Button>
   );

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useLayoutEffect } from "react";
 import { AuthContext, type AuthContextType } from "./AuthContext";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import type { InternalAxiosRequestConfig } from "axios";
-
+import { type NavigateFunction } from "react-router";
 interface InternalAxiosRequestConfigWithRetry
   extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -12,6 +12,45 @@ interface InternalAxiosRequestConfigWithRetry
 const PORT = import.meta.env.VITE_PORT as string;
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthContextType["token"]>(undefined);
+  const [user, setUser] = useState<AuthContextType["user"]>(null);
+
+  async function handleLogin(data: { username: string; password: string }) {
+    try {
+      const response: AxiosResponse = await axios.post(
+        `${PORT}/users/login`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+
+      if (response.status === 200) {
+        setToken(response.data.accessToken);
+      }
+    } catch (error: any) {
+      console.error("Error logging in:", error.response?.data.message);
+    }
+  }
+
+  async function handleLogout(navigate: NavigateFunction): Promise<void> {
+    try {
+      const response: AxiosResponse = await axios.post(
+        `${PORT}/users/logout`,
+        {},
+        { withCredentials: true },
+      );
+
+      if (response.status === 200) {
+        setToken(null);
+        navigate("/subscribe");
+      }
+    } catch (error: any) {
+      console.error("Logout failed:", error);
+    }
+  }
 
   useEffect(() => {
     const refreshToken = async () => {
@@ -66,9 +105,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
           error.response?.data?.message === "Unauthorized"
         ) {
           try {
-            const response = await axios.get(`${PORT}/api/refresh`, {
-              withCredentials: true,
-            });
+            const response: AxiosResponse = await axios.get(
+              `${PORT}/api/refresh`,
+              {
+                withCredentials: true,
+              },
+            );
 
             if (response.status === 200) {
               setToken(response.data.accessToken);
@@ -91,7 +133,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider
+      value={{ token, setToken, user, setUser, handleLogin, handleLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );

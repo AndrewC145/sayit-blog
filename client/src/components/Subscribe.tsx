@@ -14,7 +14,7 @@ const loginSchema = z.object({
   password: z.string().nonempty("Password is required"),
 });
 
-type Login = z.infer<typeof loginSchema>;
+export type Login = z.infer<typeof loginSchema>;
 
 function Subscribe() {
   const { setToken } = useContext(AuthContext);
