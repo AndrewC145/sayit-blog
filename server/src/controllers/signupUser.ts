@@ -36,8 +36,8 @@ async function signUp(req: Request, res: Response) {
   }
 
   try {
-    const hashedPassword = await hashPassword(password);
-    let user = await storeUser(username, hashedPassword);
+    const hashedPassword: string = await hashPassword(password);
+    let user: object = await storeUser(username, hashedPassword);
 
     return res.status(201).json({ user });
   } catch (error: any) {
@@ -46,8 +46,8 @@ async function signUp(req: Request, res: Response) {
 }
 
 async function hashPassword(password: string): Promise<string> {
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
+  const salt: string = await bcrypt.genSalt(10);
+  const hash: string = await bcrypt.hash(password, salt);
   return hash;
 }
 
