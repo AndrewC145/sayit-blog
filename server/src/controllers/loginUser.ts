@@ -63,12 +63,14 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
 
       const token: any = req.headers.authorization?.split(' ')[1];
       if (token) {
-        return res.status(400).json({ message: 'Already logged in ' });
+        return res.status(400).json({ message: 'You are already logged in.' });
       }
 
       const newToken: any = await sendTokens(user, res);
 
-      return res.status(200).json({ user, accessToken: newToken });
+      return res
+        .status(200)
+        .json({ user, accessToken: newToken, message: 'Login Successful!' });
     }
   )(req, res, next);
 }

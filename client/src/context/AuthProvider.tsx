@@ -14,6 +14,7 @@ const PORT = import.meta.env.VITE_PORT as string;
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthContextType["token"]>(undefined);
   const [user, setUser] = useState<AuthContextType["user"]>(null);
+  const [message, setMessage] = useState<AuthContextType["message"]>(undefined);
 
   async function handleLogin(data: {
     username: string;
@@ -33,9 +34,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.status === 200) {
         setToken(response.data.accessToken);
+        setUser(response.data.user);
+        setMessage(response.data.message);
       }
     } catch (error: any) {
       console.error("Error logging in:", error.response?.data.message);
+      setMessage(error.response?.data.message);
     }
   }
 
@@ -138,7 +142,16 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ token, setToken, user, setUser, handleLogin, handleLogout }}
+      value={{
+        token,
+        setToken,
+        user,
+        setUser,
+        handleLogin,
+        handleLogout,
+        message,
+        setMessage,
+      }}
     >
       {children}
     </AuthContext.Provider>

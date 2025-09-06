@@ -14,6 +14,8 @@ export type AuthContextType = {
   setUser?: React.Dispatch<React.SetStateAction<UserAuthProps>>;
   handleLogin: SubmitHandler<Login>;
   handleLogout: (navigate: NavigateFunction) => Promise<void>;
+  message?: string | undefined;
+  setMessage: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
 export const AuthContext: React.Context<AuthContextType> =
@@ -24,6 +26,8 @@ export const AuthContext: React.Context<AuthContextType> =
     setUser: () => {},
     handleLogin: async () => {},
     handleLogout: async () => {},
+    message: undefined,
+    setMessage: () => {},
   });
 
 export const useAuth: () => AuthContextType = () => {
