@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { jwtOptions } from './loginUser';
+import { jwtOptions } from './login.controller';
 import passport from 'passport';
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { findUserById } from '../db/registerQueries';

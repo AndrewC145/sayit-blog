@@ -5,7 +5,7 @@ import { ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import { findUserByUsername } from '../db/loginQueries';
 import { body, validationResult } from 'express-validator';
-import { sendTokens } from './refresh';
+import { sendTokens } from './refresh.controller';
 
 const loginValidation = [
   body('username').isString().notEmpty().withMessage('Username is required'),

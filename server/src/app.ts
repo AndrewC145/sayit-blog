@@ -2,10 +2,10 @@ import express, { Request, Response } from 'express';
 import passport from 'passport';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import signUpRoute from './routes/signupRoute';
-import loginRoute from './routes/loginRoute';
-import refreshRoute from './routes/refreshRoute';
-import logoutRoute from './routes/logoutRoute';
+import signUpRoute from './routes/signup.route';
+import loginRoute from './routes/login.route';
+import refreshRoute from './routes/refresh.route';
+import logoutRoute from './routes/logout.route';
 
 const app = express();
 const PORT: string | undefined = process.env.PORT;

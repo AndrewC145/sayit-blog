@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { jwtOptions } from './loginUser';
+import { jwtOptions } from './login.controller';
 
 function generateAccessToken(user: any): Promise<any> {
   const userObj: object = {
