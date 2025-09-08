@@ -35,7 +35,9 @@ passport.use(
         if (isMatch) {
           return done(null, user);
         } else {
-          return done(null, false, { message: 'Incorrect password.' });
+          return done(null, false, {
+            message: 'Incorrect username or password',
+          });
         }
       });
     } catch (error: any) {
@@ -55,18 +57,18 @@ async function loginUser(req: Request, res: Response, next: NextFunction) {
     async (err: any, user: any, info: any) => {
       if (err) return next(err);
 
+      const token: any = req.headers.authorization?.split(' ')[1];
+      if (token) {
+        return res.status(400).json({ message: 'You are already logged in.' });
+      }
+
       if (!user) {
         return res
           .status(401)
           .json({ message: info?.message || 'Login failed' });
       }
 
-      const token: any = req.headers.authorization?.split(' ')[1];
-      if (token) {
-        return res.status(400).json({ message: 'You are already logged in.' });
-      }
-
-      const newToken: any = await sendTokens(user, res);
+      const newToken: Function | undefined = await sendTokens(user, res);
 
       return res
         .status(200)
