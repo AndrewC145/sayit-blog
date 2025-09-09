@@ -24,8 +24,10 @@ model Post {
   createdAt DateTime   @default(now())
   title     String
   content   String
+  category  String
   authorId  Int
   comments  Comments[]
+  filepath  String?
 }
 
 model Users {
