@@ -1,16 +1,12 @@
 import { Request, Response } from 'express';
 import multer from 'multer';
-import { addPost } from '../db/postQueries';
-
-type PostTypes = {
-  title: string;
-  category: string;
-  content: string;
-  authorId: number;
-  filepath: string | null;
-  id: number;
-  createdAt: Date;
-};
+import {
+  PostArray,
+  PostTypes,
+  addPost,
+  getAllPosts,
+  getPostByCategory,
+} from '../db/postQueries';
 
 async function createPost(req: Request, res: Response): Promise<any> {
   try {
@@ -54,4 +50,44 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-export { upload, createPost };
+async function getPosts(req: Request, res: Response): Promise<any> {
+  try {
+    const posts: PostArray = await getAllPosts();
+
+    if (!posts) {
+      return res.status(404).json({ message: 'No posts found' });
+    }
+
+    return res.status(200).json({ posts });
+  } catch (error: any) {
+    return res
+      .status(500)
+      .json({ message: 'Error fetching posts', error: error });
+  }
+}
+
+async function categoryPosts(req: Request, res: Response): Promise<any> {
+  try {
+    const category: string = req.params.category;
+
+    if (!category) {
+      return res.status(404).json({ message: 'Category is required' });
+    }
+
+    const posts: PostArray = await getPostByCategory(category);
+
+    if (!posts || posts.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'No posts found for this category' });
+    }
+
+    return res.status(200).json({ posts });
+  } catch (error: any) {
+    return res
+      .status(500)
+      .json({ message: 'Error fetching posts by category', error: error });
+  }
+}
+
+export { upload, createPost, getPosts, categoryPosts };

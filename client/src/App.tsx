@@ -20,6 +20,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/subscribe" element={<Subscribe />} />
+              <Route path="/posts/:category" />
               <Route
                 path="/admin/create"
                 element={

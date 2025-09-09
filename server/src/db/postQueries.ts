@@ -1,12 +1,24 @@
 import prisma from './prismaClient';
 
+type PostTypes = {
+  title: string;
+  category: string;
+  content: string;
+  authorId: number;
+  filepath: string | null;
+  id: number;
+  createdAt: Date;
+};
+
+type PostArray = PostTypes[];
+
 async function addPost(
   title: string,
   content: string,
   category: string,
   imagePath: string | null,
   authorId: number
-) {
+): Promise<PostTypes> {
   const post = await prisma.post.create({
     data: {
       title,
@@ -21,8 +33,16 @@ async function addPost(
   return post;
 }
 
-async function getAllPosts() {
+async function getAllPosts(): Promise<PostArray> {
   return await prisma.post.findMany();
 }
 
-export { addPost, getAllPosts };
+async function getPostByCategory(category: string): Promise<PostArray> {
+  return await prisma.post.findMany({
+    where: {
+      category,
+    },
+  });
+}
+
+export { PostTypes, PostArray, addPost, getAllPosts, getPostByCategory };

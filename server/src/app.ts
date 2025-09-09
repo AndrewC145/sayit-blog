@@ -6,6 +6,7 @@ import signUpRoute from './routes/signup.route';
 import loginRoute from './routes/login.route';
 import refreshRoute from './routes/refresh.route';
 import logoutRoute from './routes/logout.route';
+import postRouter from './routes/post.route';
 
 const app = express();
 const PORT: string | undefined = process.env.PORT;
@@ -34,6 +35,7 @@ app.use('/users', signUpRoute);
 app.use('/users', loginRoute);
 app.use('/users', logoutRoute);
 app.use('/api/refresh', refreshRoute);
+app.use('/posts', postRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

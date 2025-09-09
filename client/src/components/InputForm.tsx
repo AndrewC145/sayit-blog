@@ -24,6 +24,7 @@ function InputForm({
       <Label>{label}</Label>
       <Input
         className={className}
+        name={label.toLowerCase()}
         type={type || "text"}
         placeholder={placeholder}
         {...register(label.toLowerCase(), { required: true })}
