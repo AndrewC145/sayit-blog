@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import * as z from "zod";
 import FormButton from "./FormButton";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import InputForm from "./InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "./ui/label";
@@ -42,15 +41,17 @@ const postSchema = z.object({
     .string()
     .min(20, { message: "Content must be at least 20 characters" })
     .max(1000, { message: "Content must be at most 1000 characters" }),
+  category: z.string().nonempty({ message: "Category is required" }),
+  authorId: z.string(),
 });
 
 type Post = z.infer<typeof postSchema>;
 
 function CreatePost() {
-  const { message, setMessage } = useAuth();
-  const [file, setFile] = useState<any | null>(null);
+  const { message, setMessage, user } = useAuth();
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<Post>({
@@ -59,14 +60,37 @@ function CreatePost() {
       file: undefined,
       title: "",
       content: "",
+      category: "",
+      authorId: String(user?.id),
     },
   });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const currentFile = e.currentTarget.files?.[0];
+  const uploadFile: SubmitHandler<Post> = async (data) => {
+    const PORT: string = import.meta.env.VITE_PORT;
+    try {
+      const formData = new FormData();
+      formData.append("file", data.file[0]);
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+      formData.append("category", data.category);
+      formData.append("authorId", data.authorId);
 
-    if (currentFile) {
-      setFile(currentFile);
+      const response: AxiosResponse = await axios.post(
+        `${PORT}/posts`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        },
+      );
+
+      if (response.status === 201) {
+        setMessage(response.data?.message);
+      }
+    } catch (error: any) {
+      console.error("Error uploading file:", error);
     }
   };
 
@@ -84,6 +108,7 @@ function CreatePost() {
           onSubmit={handleSubmit(uploadFile)}
         >
           <h1 className="mb-8 text-3xl">Create Post</h1>
+          <input type="hidden" {...register("authorId")} value={user?.id} />
           <InputForm
             register={register}
             className="h-full w-[45%] py-3 file:mr-4 file:rounded-sm file:bg-white file:px-4 file:py-1"
@@ -101,7 +126,14 @@ function CreatePost() {
           />
           <div className="my-4 w-full space-y-2">
             <Label>Category</Label>
-            <SelectCategory />
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => <SelectCategory {...field} />}
+            />
+            {errors?.category && (
+              <p className="text-red-300">{errors.category.message}</p>
+            )}
           </div>
           <div className="mb-4 w-full space-y-2">
             <Label>Content</Label>
@@ -121,41 +153,15 @@ function CreatePost() {
   );
 }
 
-async function uploadFile(
-  file: any,
-  title: string,
-  content: string,
-  setMessage: React.Dispatch<React.SetStateAction<string | undefined>>,
-): Promise<void> {
-  const PORT: string = import.meta.env.VITE_PORT;
-  try {
-    const formData: FormData = new FormData();
-    formData.append("file", file);
-    formData.append("title", title);
-    formData.append("content", content);
-
-    const response: AxiosResponse = await axios.post(
-      `${PORT}/posts`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      },
-    );
-
-    if (response.status === 201) {
-      setMessage(response.data?.message);
-    }
-  } catch (error: any) {
-    console.error("Error uploading file:", error);
-  }
-}
-
-function SelectCategory() {
+function SelectCategory({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
   return (
-    <Select>
+    <Select onValueChange={onChange} value={value}>
       <SelectTrigger className="w-[180px] p-5">
         <SelectValue placeholder="Select a category" />
       </SelectTrigger>
@@ -163,7 +169,7 @@ function SelectCategory() {
         <SelectGroup>
           <SelectLabel>Categories</SelectLabel>
           <SelectItem value="technology">Technology</SelectItem>
-          <SelectItem value="health">Fashion</SelectItem>
+          <SelectItem value="fashion">Fashion</SelectItem>
           <SelectItem value="music">Music</SelectItem>
         </SelectGroup>
       </SelectContent>

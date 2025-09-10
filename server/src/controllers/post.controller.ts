@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import path from 'path';
+import { dirname } from 'path';
 import multer from 'multer';
 import {
   PostArray,
@@ -12,6 +14,7 @@ async function createPost(req: Request, res: Response): Promise<any> {
   try {
     const { title, category, content, authorId } = req.body;
     const file: Express.Multer.File | undefined = req.file;
+    console.log(req.file);
 
     if (!title || !category || !content || !file) {
       return res.status(400).json({ message: 'All fields are required' });
@@ -37,11 +40,12 @@ async function createPost(req: Request, res: Response): Promise<any> {
 
 const storage = multer.diskStorage({
   destination: function (req: Request, file: Express.Multer.File, cb: any) {
-    cb(null, 'uploads/');
+    const __dirname = dirname(new URL(import.meta.url).pathname);
+    cb(null, path.join(__dirname, '../uploads/'));
   },
   filename: function (req: Request, file: any, cb: any) {
-    const suffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldName + '-' + suffix);
+    const suffix = Date.now() + path.extname(file.originalname);
+    cb(null, suffix);
   },
 });
 

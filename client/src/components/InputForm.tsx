@@ -13,18 +13,20 @@ type InputFormProps = {
 
 function InputForm({
   register,
+
   className = "rounded-xs p-6",
   label,
   placeholder,
   type,
   errors,
 }: InputFormProps) {
+  const inputId = label.toLowerCase() + "-input";
   return (
     <div className="mb-4 space-y-2">
-      <Label>{label}</Label>
+      <Label htmlFor={inputId}>{label}</Label>
       <Input
+        id={inputId}
         className={className}
-        name={label.toLowerCase()}
         type={type || "text"}
         placeholder={placeholder}
         {...register(label.toLowerCase(), { required: true })}

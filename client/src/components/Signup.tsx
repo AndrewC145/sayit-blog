@@ -25,7 +25,7 @@ type User = z.infer<typeof userSchema>;
 
 function SignUp() {
   const { setMessage } = useAuth();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const PORT = import.meta.env.VITE_PORT as string;
   const {
     register,
