@@ -28,6 +28,7 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 const postSchema = z.object({
+  id: z.string().optional(),
   file: z
     .any()
     .refine((files) => files?.length === 1, "Image is required")

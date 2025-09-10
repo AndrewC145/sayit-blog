@@ -7,10 +7,10 @@ function Footer() {
   ];
 
   const articlesLinks = [
-    { name: "All", path: "/articles" },
-    { name: "Music", path: "/articles/music" },
-    { name: "Fashion", path: "/articles/fashion" },
-    { name: "Tech", path: "/articles/tech" },
+    { name: "All", path: "/posts/all" },
+    { name: "Music", path: "/posts/music" },
+    { name: "Fashion", path: "/posts/fashion" },
+    { name: "Tech", path: "/posts/tech" },
   ];
 
   const adminLinks = [{ name: "Create Post", path: "/admin/create" }];

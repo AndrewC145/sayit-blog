@@ -10,7 +10,7 @@ type ArticleProps = {
 function ArticleCard({ title, image, topic, mins }: ArticleProps) {
   const PORT: string = import.meta.env.VITE_PORT;
   return (
-    <Card className="w-sm gap-5 border-0 bg-[rgb(36,36,36)] p-3.5 pb-5">
+    <Card className="h-90 w-sm cursor-pointer gap-5 border-0 bg-[rgb(36,36,36)] p-3.5 py-5">
       <img
         src={`${PORT}${image}`}
         alt={title}

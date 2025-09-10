@@ -7,9 +7,13 @@ import { type Post } from "./CreatePost";
 import axios from "axios";
 
 function Category() {
-  const { category } = useParams();
+  let { category } = useParams();
   const [posts, setPosts] = useState<Post[]>([]);
   const PORT: string = import.meta.env.VITE_PORT;
+
+  if (category === "all") {
+    category = "";
+  }
 
   useEffect(() => {
     const fetchPosts: () => Promise<void> = async () => {
@@ -43,10 +47,10 @@ function Category() {
           {category?.toUpperCase()}
         </h1>
       </div>
-      <div>
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {posts.map((post: Post) => (
           <ArticleCard
-            key={post.title}
+            key={post.id}
             title={post.title}
             image={post.file}
             topic={post.category}
