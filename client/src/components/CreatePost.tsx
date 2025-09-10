@@ -45,7 +45,7 @@ const postSchema = z.object({
   authorId: z.string(),
 });
 
-type Post = z.infer<typeof postSchema>;
+export type Post = z.infer<typeof postSchema>;
 
 function CreatePost() {
   const { message, setMessage, user } = useAuth();
@@ -168,7 +168,7 @@ function SelectCategory({
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Categories</SelectLabel>
-          <SelectItem value="technology">Technology</SelectItem>
+          <SelectItem value="tech">Technology</SelectItem>
           <SelectItem value="fashion">Fashion</SelectItem>
           <SelectItem value="music">Music</SelectItem>
         </SelectGroup>

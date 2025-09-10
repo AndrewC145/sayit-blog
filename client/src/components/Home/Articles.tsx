@@ -1,12 +1,5 @@
-import { Card, CardTitle, CardFooter } from "../ui/card";
+import ArticleCard from "../ArticleCard";
 import testImg from "../../assets/images/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques,_Paris_août_2014_(2).jpg";
-
-type ArticleProps = {
-  title: string;
-  image: string;
-  topic: string;
-  mins: number;
-};
 
 function Articles() {
   return (
@@ -36,25 +29,6 @@ function Topic({ name }: { name: string }) {
     <li className="cursor-pointer rounded-2xl px-3 py-1.5 active:bg-gray-600">
       {name}
     </li>
-  );
-}
-
-function ArticleCard({ title, image, topic, mins }: ArticleProps) {
-  return (
-    <Card className="w-sm gap-5 border-0 bg-[rgb(36,36,36)] p-3.5 pb-5">
-      <img
-        src={image}
-        alt={title}
-        className="size-full rounded-md object-cover"
-      />
-      <CardTitle className="font-pt-serif text-md font-light text-white sm:text-lg lg:text-2xl">
-        {title}
-      </CardTitle>
-      <CardFooter className="flex items-center gap-4 p-0">
-        <span className="text-sm text-gray-400">{topic}</span>
-        <span className="text-sm text-gray-400">{mins} min</span>
-      </CardFooter>
-    </Card>
   );
 }
 

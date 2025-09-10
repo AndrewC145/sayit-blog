@@ -5,7 +5,7 @@ type PostTypes = {
   category: string;
   content: string;
   authorId: number;
-  filepath: string | null;
+  file: string | null;
   id: number;
   createdAt: Date;
 };
@@ -24,7 +24,7 @@ async function addPost(
       title,
       content,
       category,
-      filepath: imagePath,
+      file: imagePath,
       authorId,
     },
   });

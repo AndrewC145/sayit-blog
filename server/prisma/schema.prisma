@@ -27,7 +27,7 @@ model Post {
   category  String
   authorId  Int
   comments  Comments[]
-  filepath  String?
+  file      String?
 }
 
 model Users {

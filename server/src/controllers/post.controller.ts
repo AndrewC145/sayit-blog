@@ -14,13 +14,12 @@ async function createPost(req: Request, res: Response): Promise<any> {
   try {
     const { title, category, content, authorId } = req.body;
     const file: Express.Multer.File | undefined = req.file;
-    console.log(req.file);
 
     if (!title || !category || !content || !file) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const imagePath: string = file.path;
+    const imagePath: string = path.join('/uploads', file.filename);
 
     const post: PostTypes = await addPost(
       title,
@@ -29,7 +28,6 @@ async function createPost(req: Request, res: Response): Promise<any> {
       imagePath,
       Number(authorId)
     );
-
     return res.status(201).json({ message: 'Post created', post });
   } catch (error: any) {
     return res

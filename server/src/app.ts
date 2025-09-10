@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import passport from 'passport';
 import cors from 'cors';
+import path from 'path';
+import { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import signUpRoute from './routes/signup.route';
 import loginRoute from './routes/login.route';
@@ -30,6 +32,10 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
+
+const __dirname = dirname(new URL(import.meta.url).pathname);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/users', signUpRoute);
 app.use('/users', loginRoute);

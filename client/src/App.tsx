@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import AuthProvider from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ErrorPage from "./components/ErrorPage";
+import Category from "./components/Category";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/subscribe" element={<Subscribe />} />
-              <Route path="/posts/:category" />
+              <Route path="/posts/:category" element={<Category />} />
               <Route
                 path="/admin/create"
                 element={
