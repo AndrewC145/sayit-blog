@@ -28,8 +28,6 @@ async function addPost(
       authorId,
     },
   });
-
-  console.log('Post added:', post);
   return post;
 }
 
