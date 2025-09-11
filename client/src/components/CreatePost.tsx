@@ -41,7 +41,7 @@ const postSchema = z.object({
   content: z
     .string()
     .min(20, { message: "Content must be at least 20 characters" })
-    .max(1000, { message: "Content must be at most 1000 characters" }),
+    .max(3000, { message: "Content must be at most 3000 characters" }),
   category: z.string().nonempty({ message: "Category is required" }),
   authorId: z.string(),
 });

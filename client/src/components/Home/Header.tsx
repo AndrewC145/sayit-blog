@@ -9,19 +9,19 @@ function Header() {
   const headerLinks: object[] = [
     {
       name: "All",
-      link: "/posts/all",
+      link: "/posts/category/all",
     },
     {
       name: "Music",
-      link: "/posts/music",
+      link: "/posts/category/music",
     },
     {
       name: "Fashion",
-      link: "/posts/fashion",
+      link: "/posts/category/fashion",
     },
     {
       name: "Tech",
-      link: "/posts/tech",
+      link: "/posts/category/tech",
     },
   ];
   return (

@@ -43,4 +43,19 @@ async function getPostByCategory(category: string): Promise<PostArray> {
   });
 }
 
-export { PostTypes, PostArray, addPost, getAllPosts, getPostByCategory };
+async function getPostById(id: number): Promise<PostTypes | null> {
+  return await prisma.post.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
+export {
+  PostTypes,
+  PostArray,
+  addPost,
+  getAllPosts,
+  getPostByCategory,
+  getPostById,
+};

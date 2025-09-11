@@ -4,12 +4,14 @@ import {
   createPost,
   getPosts,
   categoryPosts,
+  postId,
 } from '../controllers/post.controller';
 
 const postRouter: Router = Router();
 
 postRouter.get('/', getPosts);
-postRouter.get('/:category', categoryPosts);
+postRouter.get('/category/:category', categoryPosts);
+postRouter.get('/:id', postId);
 postRouter.post('/', upload.single('file'), createPost);
 
 export default postRouter;

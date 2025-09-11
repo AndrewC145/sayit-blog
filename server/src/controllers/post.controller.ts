@@ -8,6 +8,7 @@ import {
   addPost,
   getAllPosts,
   getPostByCategory,
+  getPostById,
 } from '../db/postQueries';
 
 async function createPost(req: Request, res: Response): Promise<any> {
@@ -78,7 +79,7 @@ async function categoryPosts(req: Request, res: Response): Promise<any> {
 
     const posts: PostArray = await getPostByCategory(category);
 
-    if (!posts || posts.length === 0) {
+    if (!posts) {
       return res
         .status(404)
         .json({ message: 'No posts found for this category' });
@@ -92,4 +93,26 @@ async function categoryPosts(req: Request, res: Response): Promise<any> {
   }
 }
 
-export { upload, createPost, getPosts, categoryPosts };
+async function postId(req: Request, res: Response): Promise<any> {
+  try {
+    const id: number = Number(req.params.id);
+
+    if (!id) {
+      return res.status(404).json({ message: 'Post ID is required' });
+    }
+
+    const post: PostTypes | null = await getPostById(id);
+
+    if (!post) {
+      return res.status(404).json({ message: 'No post found with this ID' });
+    }
+
+    return res.status(200).json({ post });
+  } catch (error: any) {
+    return res
+      .status(500)
+      .json({ message: 'Error fetching post by id', error: error });
+  }
+}
+
+export { upload, createPost, getPosts, categoryPosts, postId };
