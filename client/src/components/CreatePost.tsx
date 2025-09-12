@@ -44,6 +44,7 @@ const postSchema = z.object({
     .max(3000, { message: "Content must be at most 3000 characters" }),
   category: z.string().nonempty({ message: "Category is required" }),
   authorId: z.string(),
+  comments: z.array(z.any()).optional(),
 });
 
 export type Post = z.infer<typeof postSchema>;

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { jwtOptions } from './login.controller';
 import passport from 'passport';
 import { Strategy as JwtStrategy } from 'passport-jwt';
@@ -19,7 +19,11 @@ passport.use(
   })
 );
 
-async function authenticateToken(req: Request, res: Response, next: Function) {
+async function authenticateToken(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   passport.authenticate(
     'jwt',
     { session: false },

@@ -8,7 +8,16 @@ type PostTypes = {
   file: string | null;
   id: number;
   createdAt: Date;
+  comments?: CommentTypes;
 };
+
+type CommentTypes = {
+  postId: number;
+  author: string;
+  content: string;
+  id: number;
+  createdAt: Date;
+}[];
 
 type PostArray = PostTypes[];
 
@@ -51,6 +60,14 @@ async function getPostById(id: number): Promise<PostTypes | null> {
   });
 }
 
+async function getComments(postId: number): Promise<CommentTypes | null> {
+  return await prisma.comments.findMany({
+    where: {
+      postId,
+    },
+  });
+}
+
 export {
   PostTypes,
   PostArray,
@@ -58,4 +75,6 @@ export {
   getAllPosts,
   getPostByCategory,
   getPostById,
+  getComments,
+  CommentTypes,
 };

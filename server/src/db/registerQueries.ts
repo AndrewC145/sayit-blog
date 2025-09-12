@@ -4,12 +4,6 @@ async function storeUser(
   username: string,
   hashedPassword: string
 ): Promise<any> {
-  const existingUser: any = await findUserByUsername(username);
-
-  if (existingUser) {
-    throw new Error('Username already exists');
-  }
-
   const user: any = await prisma.users.create({
     data: {
       username,
@@ -20,12 +14,14 @@ async function storeUser(
   return user;
 }
 
-async function findUserByUsername(username: string): Promise<any | null> {
+async function findUserByUsername(username: string): Promise<boolean> {
   const user: any = await prisma.users.findUnique({
     where: { username },
   });
 
-  return user;
+  if (user) return true;
+
+  return false;
 }
 
 async function findUserById(id: number): Promise<any | null> {
@@ -36,4 +32,4 @@ async function findUserById(id: number): Promise<any | null> {
   return user;
 }
 
-export { storeUser, findUserById };
+export { storeUser, findUserById, findUserByUsername };

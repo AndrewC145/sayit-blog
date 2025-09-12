@@ -61,7 +61,8 @@ function SignUp() {
         setOpen(false);
       }
     } catch (error: any) {
-      console.error("Error registering user:", error.message);
+      console.error("Error registering user:", error.response.data?.message);
+      setMessage(error.response.data?.message);
     }
   };
 

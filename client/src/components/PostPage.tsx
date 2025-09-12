@@ -5,9 +5,7 @@ import axios from "axios";
 import { type Post } from "./CreatePost";
 import TextLoad from "./TextLoad";
 import ErrorPage from "./ErrorPage";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
+import CommentSection from "./CommentSection";
 
 function PostPage() {
   const { id } = useParams();
@@ -57,32 +55,11 @@ function PostPage() {
             </h2>
           </div>
           <p>{post.content}</p>
-          <CommentSection />
+          <CommentSection comments={post.comments} />
         </div>
       ) : (
         <TextLoad text="No post found with this ID" />
       )}
-    </div>
-  );
-}
-
-function CommentSection({ id, comments }: { id?: string; comments?: any[] }) {
-  return (
-    <div className="space-y-4">
-      <h3 className="text-xl">Comments</h3>
-      <form className="flex flex-col space-y-2">
-        <Label className="sr-only" htmlFor="comment">
-          Add a comment
-        </Label>
-        <Textarea
-          id="comment"
-          name="comment"
-          placeholder="Type your comment here"
-        />
-        <Button className="mt-4 mr-auto cursor-pointer bg-white text-black hover:bg-gray-200">
-          Submit
-        </Button>
-      </form>
     </div>
   );
 }

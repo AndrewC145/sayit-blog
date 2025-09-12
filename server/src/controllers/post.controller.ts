@@ -9,6 +9,8 @@ import {
   getAllPosts,
   getPostByCategory,
   getPostById,
+  getComments,
+  CommentTypes,
 } from '../db/postQueries';
 
 async function createPost(req: Request, res: Response): Promise<any> {
@@ -106,6 +108,10 @@ async function postId(req: Request, res: Response): Promise<any> {
     if (!post) {
       return res.status(404).json({ message: 'No post found with this ID' });
     }
+
+    const comments: CommentTypes | null = await getComments(id);
+
+    if (comments) post.comments = comments;
 
     return res.status(200).json({ post });
   } catch (error: any) {
