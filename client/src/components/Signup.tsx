@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as z from "zod";
 import FormButton from "./FormButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import InputForm from "./InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +30,8 @@ function SignUp() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitSuccessful },
   } = useForm<User>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -65,6 +66,10 @@ function SignUp() {
       setMessage(error.response.data?.message);
     }
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) reset();
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <form

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +21,8 @@ function Subscribe() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitSuccessful },
   } = useForm<Login>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -28,6 +30,10 @@ function Subscribe() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) reset();
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <>
