@@ -122,14 +122,8 @@ async function refreshToken(
         return res.status(403).json({ message: 'Unauthorized' });
       }
 
-      const sanitizedUser = {
-        id: user.id,
-        username: user.username,
-        role: user.role,
-      };
-
-      const accessToken = await generateAccessToken(sanitizedUser);
-      return res.status(200).json({ accessToken, user: sanitizedUser });
+      const accessToken = await generateAccessToken(user);
+      return res.status(200).json({ accessToken, user: user });
     }
   );
 }

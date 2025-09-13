@@ -28,8 +28,6 @@ function CommentSection({
   const [error, setError] = useState<string | null>(null);
   const PORT: string = import.meta.env.VITE_PORT;
 
-  console.log(user);
-
   const postComment = async (e: React.InputEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData: FormData = new FormData(e.currentTarget);
