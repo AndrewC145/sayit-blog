@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import aboutImg from "../assets/images/unseen-studio-s9CC2SKySJM-unsplash.jpg";
+import { Link } from "react-router";
 
 function About() {
   return (
@@ -9,12 +10,14 @@ function About() {
           <h1 className="font-pt-serif text-center text-5xl leading-[1.25]">
             We think that reading blog posts <br /> should be fun for everyone
           </h1>
-          <Button
-            variant="secondary"
-            className="font-noto-sans mt-10 cursor-pointer px-6 py-3 font-semibold"
-          >
-            Read More
-          </Button>
+          <Link to="/posts/category/all">
+            <Button
+              variant="secondary"
+              className="font-noto-sans mt-10 cursor-pointer px-6 py-3 font-semibold"
+            >
+              Read More
+            </Button>
+          </Link>
         </div>
       </div>
       <AboutBlog />
@@ -75,9 +78,11 @@ function SubscribeSection() {
         Have fun, experience new ideas, explore opportunities <br /> and broaden
         your horizons.
       </p>
-      <Button variant="secondary" className="font-noto-sans cursor-pointer">
-        Subscribe
-      </Button>
+      <Link to="/subscribe">
+        <Button variant="secondary" className="font-noto-sans cursor-pointer">
+          Subscribe
+        </Button>
+      </Link>
     </div>
   );
 }

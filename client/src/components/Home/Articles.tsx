@@ -9,18 +9,14 @@ function Articles() {
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const PORT: string = import.meta.env.VITE_PORT;
 
-  const scrollToTop: () => void = () => {
-    window.scrollTo(0, 0);
-  };
-
   const handleFilter: (category: string) => void = (category: string) => {
     if (category === "All") {
-      setPosts(allPosts.slice(0, 4));
+      setPosts(allPosts.slice(0, 4)); // Set a limit to 4 posts
     } else {
       const filteredPosts: Post[] = posts.filter(
         (post) => post.category === category,
       );
-      setPosts(filteredPosts.slice(0, 4));
+      setPosts(filteredPosts.slice(0, 4)); // Set a limit to 4 posts
     }
   };
 
@@ -57,7 +53,7 @@ function Articles() {
         </nav>
         {posts.length > 0 ? (
           posts.map((post: Post) => (
-            <Link onClick={scrollToTop} to={`/posts/${post.id}`} key={post.id}>
+            <Link to={`/posts/${post.id}`} key={post.id}>
               <ArticleCard
                 key={post.id}
                 title={post.title}

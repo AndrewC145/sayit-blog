@@ -1,6 +1,9 @@
 import { Link } from "react-router";
+import { useAuth } from "@/context/AuthContext";
 
 function Footer() {
+  const { user } = useAuth();
+
   const homeLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
@@ -25,7 +28,9 @@ function Footer() {
       <div className="flex items-center gap-12">
         <FooterLinks title="Home" links={homeLinks} />
         <FooterLinks title="Articles" links={articlesLinks} />
-        <FooterLinks title="Admin" links={adminLinks} />
+        {user && user.role === "ADMIN" && (
+          <FooterLinks title="Admin" links={adminLinks} />
+        )}
       </div>
     </div>
   );

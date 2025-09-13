@@ -10,33 +10,39 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ErrorPage from "./components/ErrorPage";
 import Category from "./components/Category";
 import PostPage from "./components/PostPage";
+import Scroll from "./components/Home/Scroll";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <AuthProvider>
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/subscribe" element={<Subscribe />} />
-              <Route path="/posts/category/:category" element={<Category />} />
-              <Route path="/posts/:id" element={<PostPage />} />
-              <Route
-                path="/admin/create"
-                element={
-                  <ProtectedRoute allowedRoles={["ADMIN"]}>
-                    <CreatePost />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
-          </main>
-          <Footer />
-        </AuthProvider>
+        <Scroll>
+          <AuthProvider>
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/subscribe" element={<Subscribe />} />
+                <Route
+                  path="/posts/category/:category"
+                  element={<Category />}
+                />
+                <Route path="/posts/:id" element={<PostPage />} />
+                <Route
+                  path="/admin/create"
+                  element={
+                    <ProtectedRoute allowedRoles={["ADMIN"]}>
+                      <CreatePost />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
+            </main>
+            <Footer />
+          </AuthProvider>
+        </Scroll>
       </BrowserRouter>
     </>
   );
