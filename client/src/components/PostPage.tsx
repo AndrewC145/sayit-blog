@@ -55,7 +55,7 @@ function PostPage() {
             </h2>
           </div>
           <p>{post.content}</p>
-          <CommentSection comments={post.comments} />
+          <CommentSection postId={id} comments={post.comments} />
         </div>
       ) : (
         <TextLoad text="No post found with this ID" />

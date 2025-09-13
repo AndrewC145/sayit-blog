@@ -68,6 +68,20 @@ async function getComments(postId: number): Promise<CommentTypes | null> {
   });
 }
 
+async function uploadComment(
+  username: string,
+  postId: number,
+  content: string
+) {
+  return await prisma.comments.create({
+    data: {
+      author: username,
+      postId,
+      content,
+    },
+  });
+}
+
 export {
   PostTypes,
   PostArray,
@@ -76,5 +90,6 @@ export {
   getPostByCategory,
   getPostById,
   getComments,
+  uploadComment,
   CommentTypes,
 };

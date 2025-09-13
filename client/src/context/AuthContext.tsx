@@ -4,7 +4,7 @@ import { type Login } from "@/components/Subscribe";
 import { type NavigateFunction } from "react-router";
 
 export type UserAuthProps =
-  | { id: string; name: string; role: string }
+  | { id: string; username: string; role: string }
   | null
   | undefined;
 

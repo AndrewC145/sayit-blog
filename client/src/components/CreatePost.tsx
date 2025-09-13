@@ -67,6 +67,8 @@ function CreatePost() {
     },
   });
 
+  console.log(user);
+
   const uploadFile: SubmitHandler<Post> = async (data) => {
     const PORT: string = import.meta.env.VITE_PORT;
     try {

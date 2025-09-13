@@ -10,6 +10,7 @@ import {
   getPostByCategory,
   getPostById,
   getComments,
+  uploadComment,
   CommentTypes,
 } from '../db/postQueries';
 
@@ -121,4 +122,24 @@ async function postId(req: Request, res: Response): Promise<any> {
   }
 }
 
-export { upload, createPost, getPosts, categoryPosts, postId };
+async function addComment(req: Request, res: Response): Promise<any> {
+  try {
+    const postId: number = Number(req.params.id);
+
+    const { author, comment } = req.body;
+
+    if (!postId || !author || !comment) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const newComment = await uploadComment(author, postId, comment);
+
+    return res.status(201).json({ message: 'Comment added', newComment });
+  } catch (error: any) {
+    return res
+      .status(500)
+      .json({ message: 'Error adding comment', error: error });
+  }
+}
+
+export { upload, createPost, getPosts, categoryPosts, postId, addComment };

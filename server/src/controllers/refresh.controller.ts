@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { jwtOptions } from './login.controller';
+import { findUserById } from '../db/registerQueries';
 
 function generateAccessToken(user: any): Promise<any> {
   const userObj: object = {
@@ -116,8 +117,19 @@ async function refreshToken(
         return res.status(403).json({ message: 'Unauthorized' });
       }
 
-      const accessToken = await generateAccessToken(decoded.sub);
-      return res.status(200).json({ accessToken, user: decoded.sub });
+      const user = await findUserById(decoded.sub.id);
+      if (!user) {
+        return res.status(403).json({ message: 'Unauthorized' });
+      }
+
+      const sanitizedUser = {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      };
+
+      const accessToken = await generateAccessToken(sanitizedUser);
+      return res.status(200).json({ accessToken, user: sanitizedUser });
     }
   );
 }

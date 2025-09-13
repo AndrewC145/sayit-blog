@@ -34,7 +34,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (response.status === 200) {
         setToken(response.data.accessToken);
-        setUser(response.data.user);
+        const { id, username, role } = response.data.user;
+        setUser({ id, username, role });
         setMessage(response.data.message);
       }
     } catch (error: any) {
@@ -70,7 +71,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (response.status === 200) {
           setToken(response.data.accessToken);
-          setUser(response.data.user);
+          const { id, username, role } = response.data.user;
+          setUser({ id, username, role });
         } else {
           setToken(null);
           setUser(null);
