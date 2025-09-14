@@ -27,7 +27,7 @@ function Header() {
   return (
     <header className="bg-[#242424] text-white">
       <nav className="font-noto-sans flex items-center justify-between px-4 py-4 sm:px-6 md:px-8 lg:px-10">
-        <h1 className="sm:text-md flex-1 text-xs font-semibold lg:text-lg xl:text-xl">
+        <h1 className="sm:text-md flex-1 text-sm font-semibold md:text-lg lg:text-xl 2xl:text-xl">
           <Link to="/">sayit</Link>
         </h1>
         <ul className="flex gap-4 text-xs sm:text-base md:gap-5 lg:gap-7">

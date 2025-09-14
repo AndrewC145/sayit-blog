@@ -60,13 +60,13 @@ function Category() {
   }
 
   return (
-    <div className="min-h-screen bg-[rgb(20,20,20)] p-18 text-gray-200">
-      <div className="mb-20 flex items-center justify-center">
-        <h1 className="font-noto-sans inline-block text-center text-6xl font-semibold">
+    <div className="min-h-screen bg-[rgb(20,20,20)] p-10 text-gray-200 sm:p-12 md:p-18">
+      <div className="mb-10 flex items-center justify-center sm:mb-15 md:mb-20">
+        <h1 className="font-noto-sans inline-block text-center text-4xl font-semibold sm:text-5xl md:text-6xl">
           {category?.toUpperCase() || "ALL"}
         </h1>
       </div>
-      <div className="grid grid-cols-1 place-items-center gap-5 sm:gap-7 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10 2xl:grid-cols-4">
+      <div className="grid-gap grid grid-cols-1 place-items-center gap-5 sm:gap-7 md:grid-cols-2 md:gap-10 lg:gap-15 xl:grid-cols-3">
         {posts.map((post: Post) => (
           <Link to={`/posts/${post.id}`} key={post.id}>
             <ArticleCard
