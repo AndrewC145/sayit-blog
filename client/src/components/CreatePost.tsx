@@ -104,16 +104,16 @@ function CreatePost() {
 
       <div className="font-pt-serif flex h-screen items-center justify-center bg-gray-950 text-white">
         <form
-          className="flex w-[50%] flex-col rounded-md border-2 border-white p-12"
+          className="flex w-[85%] flex-col rounded-md border-2 border-white p-8 sm:w-[75%] md:w-[50%] md:p-12"
           encType="multipart/form-data"
           method="POST"
           onSubmit={handleSubmit(uploadFile)}
         >
-          <h1 className="mb-8 text-3xl">Create Post</h1>
+          <h1 className="mb-8 text-xl sm:text-2xl lg:text-3xl">Create Post</h1>
           <input type="hidden" {...register("authorId")} value={user?.id} />
           <InputForm
             register={register}
-            className="h-full w-[45%] py-3 file:mr-4 file:rounded-sm file:bg-white file:px-4 file:py-1"
+            className="h-full w-full py-3 file:mr-4 file:rounded-sm file:bg-white file:px-4 file:py-1 sm:w-[80%] md:text-base lg:w-[60%] xl:w-[45%]"
             label="File"
             type="file"
             placeholder="Choose a file"
@@ -140,7 +140,7 @@ function CreatePost() {
           <div className="mb-4 w-full space-y-2">
             <Label>Content</Label>
             <Textarea
-              className="rounded-xs p-4"
+              className="rounded-xs p-4 text-sm md:text-base"
               placeholder="Write your post content here"
               {...register("content", { required: true })}
             />
