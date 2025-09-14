@@ -24,7 +24,9 @@ function ArticleCard({
 }: ArticleProps) {
   const { user } = useAuth();
   const PORT: string = import.meta.env.VITE_PORT;
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     const response: AxiosResponse = await axios.delete(`${PORT}/posts/${id}`, {
       headers: { "Content-Type": "application/json" },
       data: { id },

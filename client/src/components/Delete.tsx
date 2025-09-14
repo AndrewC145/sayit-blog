@@ -11,11 +11,13 @@ function Delete({
   onClick,
 }: {
   icon: React.ReactNode;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>{icon}</DropdownMenuTrigger>
+      <DropdownMenuTrigger className="cursor-pointer">
+        {icon}
+      </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem onClick={onClick}>Delete</DropdownMenuItem>
