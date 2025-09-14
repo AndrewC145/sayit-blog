@@ -117,9 +117,11 @@ function Comment({
 }) {
   return (
     <div className="mb-6 space-y-6 rounded-lg border border-gray-300 p-4">
-      <div className="flex flex-col sm:flex-row sm:gap-4">
-        <h4 className="font-bold">{comment.author}</h4>
-        <h5>{new Date(comment.createdAt).toLocaleDateString()}</h5>
+      <div className="flex sm:gap-4">
+        <div className="flex flex-col sm:flex-row sm:gap-4">
+          <h4 className="font-bold">{comment.author}</h4>
+          <h5>{new Date(comment.createdAt).toLocaleDateString()}</h5>
+        </div>
         {user?.role === "ADMIN" && (
           <div className="ml-auto">
             <DropDown
