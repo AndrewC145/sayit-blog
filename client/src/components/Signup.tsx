@@ -73,23 +73,25 @@ function SignUp() {
 
   return (
     <form
-      className="h-full w-[50%] border-2 border-white p-12"
+      className="w-full border-2 border-white p-6 sm:w-[50%] sm:p-12 xl:h-full"
       method="POST"
       onSubmit={handleSubmit(registerUser)}
     >
       {!open ? (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold">NEW USER</h2>
-          <h3 className="mb-8">
+          <h1 className="text-md font-bold sm:text-lg md:text-xl">NEW USER</h1>
+          <h2 className="mb-8 text-xs sm:text-sm md:text-base">
             Sign up for an account to stay up to date with the latest articles
             and details from sayit, but also to be able to comment on articles.
-          </h3>
+          </h2>
           <FormButton handleClick={toggleForm} text="Sign Up" />
         </div>
       ) : (
         <div className="space-y-4">
-          <h2 className="text-xl font-bold">CREATE ACCOUNT</h2>
-          <p className="mb-4">
+          <h1 className="text-md font-bold sm:text-lg md:text-xl">
+            CREATE ACCOUNT
+          </h1>
+          <p className="mb-4 text-xs sm:text-sm md:text-base">
             Please enter your username and password to create an account.
           </p>
           <InputForm

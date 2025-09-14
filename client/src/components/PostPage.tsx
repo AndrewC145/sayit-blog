@@ -44,17 +44,17 @@ function PostPage() {
   if (error) return <ErrorPage />;
 
   return (
-    <div className="min-h-screen bg-[rgb(20,20,20)] p-18 text-gray-200">
+    <div className="min-h-screen bg-[rgb(20,20,20)] p-10 text-gray-200 sm:p-14 md:p-18">
       {post ? (
         <div className="font-pt-serif mx-auto flex max-w-3xl flex-col gap-10">
           <div className="space-y-6">
             <h1 className="text-3xl font-semibold">{post.title}</h1>
             <img src={`${PORT}${post.file}`}></img>
-            <h2 className="text-lg">
+            <h2 className="text-md sm:text-lg">
               {Math.floor(post.content.length / 250)} min read
             </h2>
           </div>
-          <p>{post.content}</p>
+          <p className="text-sm sm:text-base">{post.content}</p>
           <CommentSection postId={id} comments={post.comments} />
         </div>
       ) : (

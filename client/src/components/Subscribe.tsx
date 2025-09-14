@@ -37,18 +37,18 @@ function Subscribe() {
 
   return (
     <>
-      <div className="absolute top-25 left-1/2 z-50 flex -translate-x-1/2 justify-center">
+      <div className="absolute top-20 left-1/2 z-50 flex -translate-x-1/2 justify-center sm:top-25">
         <AlertMsg message={message} setMessage={setMessage} />
       </div>
-      <div className="font-pt-serif flex h-screen items-center justify-center gap-4 bg-gray-950 p-24 text-white">
+      <div className="font-pt-serif flex flex-col items-stretch justify-center gap-4 bg-gray-950 px-8 py-20 text-white sm:flex-row sm:px-12 md:items-center lg:p-24 xl:h-screen">
         <form
-          className="h-full w-[50%] border-2 border-white p-12"
+          className="w-full border-2 border-white p-6 sm:w-[50%] sm:p-12 xl:h-full"
           method="POST"
           onSubmit={handleSubmit(handleLogin)}
         >
           <div className="space-y-4">
-            <h1 className="text-xl font-bold">LOGIN</h1>
-            <p className="mb-4">
+            <h1 className="text-md font-bold sm:text-lg md:text-xl">LOGIN</h1>
+            <p className="mb-4 text-xs sm:text-sm md:text-base">
               Please enter your username and password to log in.
             </p>
           </div>

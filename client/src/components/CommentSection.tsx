@@ -66,6 +66,7 @@ function CommentSection({
           Add a comment
         </Label>
         <Textarea
+          className="min-h-[100px] bg-[rgb(30,30,30)] text-xs text-gray-200 placeholder:text-gray-500 sm:text-sm md:text-base"
           id="comment"
           name="comment"
           placeholder="Type your comment here"
@@ -91,8 +92,8 @@ function CommentSection({
 function Comment({ comment }: { comment: CommentType }) {
   return (
     <div className="mb-6 space-y-6 rounded-lg border border-gray-300 p-4">
-      <div className="flex gap-4">
-        <h4>{comment.author}</h4>
+      <div className="flex flex-col sm:flex-row sm:gap-4">
+        <h4 className="font-bold">{comment.author}</h4>
         <h5>{new Date(comment.createdAt).toLocaleDateString()}</h5>
       </div>
       <p>{comment.content}</p>

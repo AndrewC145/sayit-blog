@@ -24,7 +24,7 @@ function AlertMsg({ message, setMessage }: AlertProps) {
 
   return (
     <Alert
-      className="w-[30vw] rounded-md border-1 border-gray-500 bg-[#242424] text-white"
+      className="w-[80vw] rounded-md border-1 border-gray-500 bg-[#242424] text-white sm:w-[40vw] md:w-[30vw]"
       variant="default"
     >
       <MessageSquare />

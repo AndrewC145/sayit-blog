@@ -13,8 +13,7 @@ type InputFormProps = {
 
 function InputForm({
   register,
-
-  className = "rounded-xs p-6",
+  className = "rounded-xs text-xs sm:text-sm md:text-base placeholder:text-xs p-3 sm:p-6",
   label,
   placeholder,
   type,
