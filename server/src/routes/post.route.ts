@@ -6,6 +6,7 @@ import {
   categoryPosts,
   postId,
   addComment,
+  deleteCommentController,
 } from '../controllers/post.controller';
 
 const postRouter: Router = Router();
@@ -14,6 +15,7 @@ postRouter.get('/', getPosts);
 postRouter.get('/category/:category', categoryPosts);
 postRouter.get('/:id', postId);
 postRouter.post('/:id', addComment);
+postRouter.delete('/:id', deleteCommentController);
 postRouter.post('/', upload.single('file'), createPost);
 
 export default postRouter;

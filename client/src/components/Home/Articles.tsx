@@ -11,12 +11,12 @@ function Articles() {
 
   const handleFilter: (category: string) => void = (category: string) => {
     if (category === "All") {
-      setPosts(allPosts);
+      setPosts(allPosts.slice(0, 6));
     } else {
       const filteredPosts: Post[] = allPosts.filter(
         (post) => post.category === category.toLowerCase(),
       );
-      setPosts(filteredPosts);
+      setPosts(filteredPosts.slice(0, 6));
     }
   };
 
@@ -34,7 +34,7 @@ function Articles() {
         const response: AxiosResponse = await axios.get(`${PORT}/posts`);
 
         if (response.status === 200) {
-          setPosts(response.data.posts);
+          setPosts(response.data.posts.slice(0, 6));
           setAllPosts(response.data.posts);
         }
       } catch (error) {

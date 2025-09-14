@@ -1,9 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useState, type SetStateAction } from "react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { useAuth } from "@/context/AuthContext";
+import { type UserAuthProps } from "@/context/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu";
+import { Ellipsis } from "lucide-react";
 import axios, { type AxiosResponse } from "axios";
 
 type CommentType = {
@@ -13,6 +22,8 @@ type CommentType = {
   postId: string;
   createdAt: string;
 };
+
+const PORT: string = import.meta.env.VITE_PORT;
 
 function CommentSection({
   postId,
@@ -26,7 +37,6 @@ function CommentSection({
     initialComments,
   );
   const [error, setError] = useState<string | null>(null);
-  const PORT: string = import.meta.env.VITE_PORT;
 
   const postComment = async (e: React.InputEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,22 +92,90 @@ function CommentSection({
       <div className="flex flex-col">
         {comments &&
           comments?.map((comment) => {
-            return <Comment key={comment.id} comment={comment} />;
+            return (
+              <Comment
+                setComments={setComments}
+                user={user}
+                key={comment.id}
+                comment={comment}
+              />
+            );
           })}
       </div>
     </div>
   );
 }
 
-function Comment({ comment }: { comment: CommentType }) {
+function Comment({
+  comment,
+  user,
+  setComments,
+}: {
+  comment: CommentType;
+  user: UserAuthProps | null;
+  setComments: React.Dispatch<SetStateAction<CommentType[] | undefined>>;
+}) {
   return (
     <div className="mb-6 space-y-6 rounded-lg border border-gray-300 p-4">
       <div className="flex flex-col sm:flex-row sm:gap-4">
         <h4 className="font-bold">{comment.author}</h4>
         <h5>{new Date(comment.createdAt).toLocaleDateString()}</h5>
+        {user?.role === "ADMIN" && (
+          <div className="ml-auto">
+            <DropDown
+              setComments={setComments}
+              id={comment.id}
+              postId={comment.postId}
+              icon={<Ellipsis className="h-4 w-4 cursor-pointer" />}
+            />
+          </div>
+        )}
       </div>
       <p>{comment.content}</p>
     </div>
+  );
+}
+
+function DropDown({
+  icon,
+  postId,
+  id,
+  setComments,
+}: {
+  icon: React.ReactNode;
+  postId?: string;
+  id?: string;
+  setComments: React.Dispatch<SetStateAction<CommentType[] | undefined>>;
+}) {
+  const deletePost = async () => {
+    try {
+      const response: AxiosResponse = await axios.delete(
+        `${PORT}/posts/${postId}`,
+        {
+          headers: { "Content-Type": "application/json" },
+          data: { commentId: id },
+          withCredentials: true,
+        },
+      );
+
+      if (response.status === 200) {
+        setComments((prevComments) =>
+          prevComments?.filter((comment) => comment.id !== id),
+        );
+      }
+    } catch (error: any) {
+      console.error("Error deleting post", error);
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>{icon}</DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem onClick={deletePost}>Delete</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
