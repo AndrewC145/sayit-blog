@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import path from 'path';
 import { dirname } from 'path';
 import multer from 'multer';
+import { unlink } from 'fs';
 import {
   PostArray,
   PostTypes,
@@ -175,6 +176,15 @@ async function deletePostController(req: Request, res: Response): Promise<any> {
   if (!deletedPost) {
     return res.status(404).json({ message: 'Post not found' });
   }
+  const __dirname: string = dirname(new URL(import.meta.url).pathname);
+
+  const fullPath: string = path.join(__dirname, '../', deletedPost.file!);
+
+  unlink(fullPath, (err) => {
+    if (err) {
+      throw err;
+    }
+  });
 
   return res.status(200).json({ message: 'Post deleted' });
 }
