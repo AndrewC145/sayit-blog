@@ -20,19 +20,19 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="font-pt-serif space-y-20 bg-gray-950 px-24 py-28 text-gray-300">
+    <footer className="font-pt-serif flex flex-col space-y-20 bg-gray-950 px-12 py-14 text-gray-300 md:px-24 md:py-28">
       <div>
         <h2 className="mb-2 text-6xl">sayit</h2>
         <p>{currentYear} - AndrewC145</p>
       </div>
-      <div className="flex items-center gap-12">
+      <div className="flex flex-col items-center gap-12 sm:flex-row">
         <FooterLinks title="Home" links={homeLinks} />
         <FooterLinks title="Articles" links={articlesLinks} />
         {user && user.role === "ADMIN" && (
           <FooterLinks title="Admin" links={adminLinks} />
         )}
       </div>
-    </div>
+    </footer>
   );
 }
 
