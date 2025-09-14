@@ -70,11 +70,13 @@ function Category() {
         {posts.map((post: Post) => (
           <Link to={`/posts/${post.id}`} key={post.id}>
             <ArticleCard
+              id={post.id}
               key={post.id}
               title={post.title}
               image={post.file}
               topic={capitalizeFirstLetter(post.category)}
               mins={Math.floor(post.content.length / 250)}
+              setPosts={setPosts}
             />
           </Link>
         ))}

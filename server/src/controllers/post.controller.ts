@@ -11,9 +11,9 @@ import {
   getPostById,
   getComments,
   uploadComment,
-  CommentTypes,
   deleteComment,
   CommentArray,
+  deletePost,
 } from '../db/postQueries';
 
 async function createPost(req: Request, res: Response): Promise<any> {
@@ -160,7 +160,23 @@ async function deleteCommentController(
     return res.status(404).json({ message: 'Comment not found' });
   }
 
-  return res.status(200).json({ message: 'Comment deleted', deletedComment });
+  return res.status(200).json({ message: 'Comment deleted' });
+}
+
+async function deletePostController(req: Request, res: Response): Promise<any> {
+  const postId: number = Number(req.body.id);
+
+  if (!postId) {
+    return res.status(400).json({ message: 'Post ID is required' });
+  }
+
+  const deletedPost = await deletePost(postId);
+
+  if (!deletedPost) {
+    return res.status(404).json({ message: 'Post not found' });
+  }
+
+  return res.status(200).json({ message: 'Post deleted' });
 }
 
 export {
@@ -171,4 +187,5 @@ export {
   postId,
   addComment,
   deleteCommentController,
+  deletePostController,
 };

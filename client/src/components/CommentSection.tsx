@@ -5,15 +5,9 @@ import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { useAuth } from "@/context/AuthContext";
 import { type UserAuthProps } from "@/context/AuthContext";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuItem,
-} from "./ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
 import axios, { type AxiosResponse } from "axios";
+import Delete from "./Delete";
 
 type CommentType = {
   id: string;
@@ -45,7 +39,7 @@ function CommentSection({
 
     try {
       const response: AxiosResponse = await axios.post(
-        `${PORT}/posts/${postId}`,
+        `${PORT}/posts/${postId}/comments`,
         formData,
         {
           headers: {
@@ -149,10 +143,10 @@ function DropDown({
   id?: string;
   setComments: React.Dispatch<SetStateAction<CommentType[] | undefined>>;
 }) {
-  const deletePost = async () => {
+  const deletePost: () => Promise<void> = async () => {
     try {
       const response: AxiosResponse = await axios.delete(
-        `${PORT}/posts/${postId}`,
+        `${PORT}/posts/${postId}/comments/${id}`,
         {
           headers: { "Content-Type": "application/json" },
           data: { commentId: id },
@@ -170,15 +164,7 @@ function DropDown({
     }
   };
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>{icon}</DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={deletePost}>Delete</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+  return <Delete icon={icon} onClick={deletePost} />;
 }
 
 export default CommentSection;

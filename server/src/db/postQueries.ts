@@ -91,6 +91,22 @@ async function deleteComment(id: number): Promise<CommentTypes | null> {
   });
 }
 
+async function deletePost(id: number): Promise<PostTypes | null> {
+  await prisma.comments.deleteMany({
+    where: {
+      postId: id,
+    },
+  });
+
+  const deletedPost = await prisma.post.delete({
+    where: {
+      id,
+    },
+  });
+
+  return deletedPost;
+}
+
 export {
   PostTypes,
   PostArray,
@@ -103,4 +119,5 @@ export {
   CommentTypes,
   deleteComment,
   CommentArray,
+  deletePost,
 };

@@ -66,6 +66,7 @@ function Articles() {
             posts.map((post: Post) => (
               <Link to={`/posts/${post.id}`} key={post.id}>
                 <ArticleCard
+                  setPosts={setPosts}
                   key={post.id}
                   title={post.title}
                   topic={post.category}
