@@ -9,6 +9,7 @@ import {
   deleteCommentController,
   deletePostController,
 } from '../controllers/post.controller';
+import { checkTokenMiddleware } from '../controllers/refresh.controller';
 
 const postRouter: Router = Router();
 
@@ -18,6 +19,6 @@ postRouter.get('/:id', postId);
 postRouter.post('/:id/comments', addComment);
 postRouter.delete('/:id', deletePostController);
 postRouter.delete('/:id/comments/:commentId', deleteCommentController);
-postRouter.post('/', upload.single('file'), createPost);
+postRouter.post('/', checkTokenMiddleware, upload.single('file'), createPost);
 
 export default postRouter;
