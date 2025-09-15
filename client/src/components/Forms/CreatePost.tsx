@@ -93,6 +93,7 @@ function CreatePost() {
       }
     } catch (error: any) {
       console.error("Error uploading file:", error);
+      setMessage(error.response.data?.message);
     }
   };
 

@@ -39,7 +39,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         setMessage(response.data.message);
       }
     } catch (error: any) {
-      console.error("Error logging in:", error.response?.data.message);
       setMessage(error.response?.data.message);
     }
   }

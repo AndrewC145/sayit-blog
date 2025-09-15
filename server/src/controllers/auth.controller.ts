@@ -7,8 +7,8 @@ import { findUserById } from '../db/registerQueries';
 passport.use(
   new JwtStrategy(jwtOptions, (jwt_payload: any, done: Function) => {
     try {
-      const userId = jwt_payload.sub;
-      const user = findUserById(userId);
+      const userId: any = jwt_payload.sub;
+      const user: Promise<any> = findUserById(userId);
 
       if (user) return done(null, user);
 

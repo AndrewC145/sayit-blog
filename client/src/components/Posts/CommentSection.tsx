@@ -57,7 +57,6 @@ function CommentSection({
         setError(null);
       }
     } catch (error: any) {
-      console.error("Error posting comment", error);
       setError(error.response.data.message);
     }
   };

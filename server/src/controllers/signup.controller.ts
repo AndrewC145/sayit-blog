@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { body, Result, validationResult } from 'express-validator';
+import {
+  body,
+  Result,
+  ValidationError,
+  validationResult,
+} from 'express-validator';
 import { storeUser, findUserByUsername } from '../db/registerQueries';
 
 const signupValidation = [
@@ -34,9 +39,9 @@ type LoginProps = {
 
 async function signUp(req: Request, res: Response) {
   const { username, password }: LoginProps = req.body;
-  const errors: Result = validationResult(req);
+  const errors: Result<ValidationError> = validationResult(req);
 
-  const findingUser = username.toLowerCase();
+  const findingUser: string = username.toLowerCase();
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

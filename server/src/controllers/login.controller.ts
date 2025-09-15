@@ -4,7 +4,12 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { ExtractJwt } from 'passport-jwt';
 import bcrypt from 'bcryptjs';
 import { findUserByUsername } from '../db/loginQueries';
-import { body, validationResult } from 'express-validator';
+import {
+  body,
+  Result,
+  ValidationError,
+  validationResult,
+} from 'express-validator';
 import { sendTokens } from './refresh.controller';
 
 const loginValidation = [
@@ -47,7 +52,7 @@ passport.use(
 );
 
 async function loginUser(req: Request, res: Response, next: NextFunction) {
-  const errors = validationResult(req);
+  const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
