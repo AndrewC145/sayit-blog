@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import type { SubmitHandler } from "react-hook-form";
-import { type Login } from "@/components/Subscribe";
+import { type Login } from "@/components/Forms/Subscribe";
 import { type NavigateFunction } from "react-router";
 
 export type UserAuthProps =

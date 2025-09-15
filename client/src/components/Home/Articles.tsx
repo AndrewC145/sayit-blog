@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import ArticleCard from "../ArticleCard";
+import ArticleCard from "../Posts/ArticleCard";
 import axios, { type AxiosResponse } from "axios";
-import { type Post } from "../CreatePost";
+import { type Post } from "../Forms/CreatePost";
 import { Link } from "react-router";
 
 function Articles() {

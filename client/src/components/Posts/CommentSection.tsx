@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, type SetStateAction } from "react";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { Label } from "../ui/label";
 import { useAuth } from "@/context/AuthContext";
 import { type UserAuthProps } from "@/context/AuthContext";
 import { Ellipsis } from "lucide-react";
 import axios, { type AxiosResponse } from "axios";
-import Delete from "./Delete";
+import Delete from "../Delete";
 
 type CommentType = {
   id: string;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Alert, AlertTitle } from "./ui/alert";
+import { Alert, AlertTitle } from "../ui/alert";
 import { type AuthContextType } from "@/context/AuthContext";
 import { MessageSquare } from "lucide-react";
 

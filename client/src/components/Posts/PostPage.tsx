@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { type Post } from "./CreatePost";
-import TextLoad from "./TextLoad";
-import ErrorPage from "./ErrorPage";
+import { type Post } from "../Forms/CreatePost";
+import TextLoad from "../TextLoad";
+import ErrorPage from "../ErrorPage";
 import CommentSection from "./CommentSection";
 
 function PostPage() {

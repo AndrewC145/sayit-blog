@@ -2,14 +2,14 @@ import Home from "./components/Home/Home";
 import Header from "./components/Home/Header";
 import Footer from "./components/Home/Footer";
 import About from "./components/About";
-import Subscribe from "./components/Subscribe";
-import CreatePost from "./components/CreatePost";
+import Subscribe from "./components/Forms/Subscribe";
+import CreatePost from "./components/Forms/CreatePost";
 import { BrowserRouter, Routes, Route } from "react-router";
 import AuthProvider from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ErrorPage from "./components/ErrorPage";
-import Category from "./components/Category";
-import PostPage from "./components/PostPage";
+import Category from "./components/Posts/Category";
+import PostPage from "./components/Posts/PostPage";
 import Scroll from "./components/Home/Scroll";
 
 function App() {

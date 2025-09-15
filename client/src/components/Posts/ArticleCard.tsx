@@ -1,7 +1,7 @@
-import { Card, CardTitle, CardFooter } from "./ui/card";
-import Delete from "./Delete";
+import { Card, CardTitle, CardFooter } from "../ui/card";
+import Delete from "../Delete";
 import { Ellipsis } from "lucide-react";
-import { type Post } from "./CreatePost";
+import { type Post } from "../Forms/CreatePost";
 import axios, { type AxiosResponse } from "axios";
 import { useAuth } from "@/context/AuthContext";
 

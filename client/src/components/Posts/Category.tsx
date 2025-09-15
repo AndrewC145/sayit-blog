@@ -2,9 +2,9 @@
 import ArticleCard from "./ArticleCard";
 import { useParams, Link } from "react-router";
 import { useState, useEffect } from "react";
-import ErrorPage from "./ErrorPage";
-import TextLoad from "./TextLoad";
-import { type Post } from "./CreatePost";
+import ErrorPage from "../ErrorPage";
+import TextLoad from "../TextLoad";
+import { type Post } from "../Forms/CreatePost";
 import axios from "axios";
 
 function Category() {

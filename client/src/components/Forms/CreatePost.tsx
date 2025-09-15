@@ -4,8 +4,8 @@ import FormButton from "./FormButton";
 import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import InputForm from "./InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 import axios, { type AxiosResponse } from "axios";
 import AlertMsg from "./AlertMsg";
 import { useAuth } from "@/context/AuthContext";
@@ -17,7 +17,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
