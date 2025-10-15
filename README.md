@@ -1,6 +1,7 @@
 # sayit-blog
 
 A full stack blog application to create and view posts
+!["sayit-blog"](client/src/assets/images/sayit.png)
 
 ## Information
 
